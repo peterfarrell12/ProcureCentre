@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "788201718841",
+    "firebase_url": "https://procurecentre.firebaseio.com",
+    "project_id": "procurecentre",
+    "storage_bucket": "procurecentre.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788201718841:android:edbddddf84b52cde2e39e8",
+        "android_client_info": {
+          "package_name": "com.peterfarrell.procurecentre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788201718841-a0p19kre5v059hiuqrq71f53lqkmc47t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhVW0Zr94oeMG8dCPJsRY0NHpiJUIAmbg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788201718841-a0p19kre5v059hiuqrq71f53lqkmc47t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "788201718841-uto8dupal3kc76hl30ghvbrvcef5sr1d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.peterfarrell.procurecentre"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

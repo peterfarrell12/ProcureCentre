@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>975586333522-gahsm5ldjvi693msvmt61dmbou7be53l.apps.googleusercontent.com</string>
+	<string>788201718841-uto8dupal3kc76hl30ghvbrvcef5sr1d.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.975586333522-gahsm5ldjvi693msvmt61dmbou7be53l</string>
+	<string>com.googleusercontent.apps.788201718841-uto8dupal3kc76hl30ghvbrvcef5sr1d</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBuSIzYsQkDTXSO3fZ68OVSTUIxc7e7xZ4</string>
+	<string>AIzaSyBBJHiLWvGlAGnNgH3u755kKR6imqhN97w</string>
 	<key>GCM_SENDER_ID</key>
-	<string>975586333522</string>
+	<string>788201718841</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>co.peterfarrell.flashChat</string>
+	<string>com.peterfarrell.procurecentre</string>
 	<key>PROJECT_ID</key>
-	<string>flash-chat-844d3</string>
+	<string>procurecentre</string>
 	<key>STORAGE_BUCKET</key>
-	<string>flash-chat-844d3.appspot.com</string>
+	<string>procurecentre.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +29,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:975586333522:ios:0ca2a850b361e260</string>
+	<string>1:788201718841:ios:858c69f2c74205b12e39e8</string>
 	<key>DATABASE_URL</key>
-	<string>https://flash-chat-844d3.firebaseio.com</string>
+	<string>https://procurecentre.firebaseio.com</string>
 </dict>
 </plist>
