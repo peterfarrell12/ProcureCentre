@@ -27,7 +27,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
    User get _user => widget.user;
-  UserRepository get _userRepository => widget.userRepository;
+  //UserRepository get _userRepository => widget.userRepository;
    HomeBloc _homeBloc;
    
 
@@ -40,10 +40,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String _userName = _user.username;
-    String _email = _user.email;
-    String _company = _user.company;
-    String _id = _user.documentId;
+    // String _userName = _user.username;
+    // String _email = _user.email;
+    // String _company = _user.company;
+    // String _id = _user.documentId;
     _homeBloc = HomeBloc(user: _user);
     final AuthenticationBloc authenticationBloc =
         BlocProvider.of<AuthenticationBloc>(context);
@@ -176,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                          bloc: _homeBloc,
                          builder: (context, state) {
                          if(state is ProjectState){
-                           return ProjectsScreen();
+                           return ProjectsScreen(user: _user,);
                          }
                          else if (state is DashboardState){
                            return DashboardScreen();
@@ -185,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           return SettingScreen();
                         }
                         else {
-                          return ProjectsScreen();
+                          return ProjectsScreen(user: _user,);
                         } 
                          }
                          

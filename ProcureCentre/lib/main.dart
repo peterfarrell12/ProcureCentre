@@ -36,6 +36,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is Unauthenticated) {
@@ -43,7 +44,7 @@ class App extends StatelessWidget {
           }
           if (state is Authenticated) {
             return BlocProvider<HomeBloc>(
-              create: (context) => HomeBloc(),
+              create: (context) => HomeBloc(user: state.user),
               child: HomeScreen(user: state.user, userRepository: _userRepository,),
             );
           }

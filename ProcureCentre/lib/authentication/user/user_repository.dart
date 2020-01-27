@@ -63,11 +63,14 @@ class UserRepository {
   }
 
   Future<User> getUser() async {
-    //FirebaseUser user = await _firebaseAuth.currentUser();
-    //fs.DocumentReference ref = await getUserRef(user.email.toString());
-    fs.DocumentReference ref = store.collection('companies').doc('TestCompany3').collection('users').doc('sjhbNeLim5dDwN3Ebqmd');
-    final fs.DocumentSnapshot currentDocument = await ref.get();
-    return User.fromFirestore(currentDocument);
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    print(user.email);
+    fs.DocumentSnapshot ref = await findUser(user.email.toString());
+    print(user.email);
+
+    //fs.DocumentReference ref = store.collection('companies').doc('TestCompany3').collection('users').doc('sjhbNeLim5dDwN3Ebqmd');
+    //final fs.DocumentSnapshot currentDocument = await ref.get();
+    return User.fromFirestore(ref);
 
   }
 
@@ -118,6 +121,16 @@ class UserRepository {
 
     return ref;
   }
+
+  Future<fs.DocumentSnapshot> findUser (String userEmail)async {
+    var query = store.collectionGroup("users").where("Email", "==", userEmail);
+    var querySnapshot = await  query.get();
+    fs.DocumentSnapshot userDocumentRef = querySnapshot.docs[0];
+    print(userDocumentRef.id);
+    return userDocumentRef;
+  }
+
+
 
   Future<List<String>> companyList() async {
 
