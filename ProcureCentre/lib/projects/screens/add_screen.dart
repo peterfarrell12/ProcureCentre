@@ -48,57 +48,58 @@ class _AddEditScreenState extends State<AddEditScreen> {
     return BlocBuilder<ProjectsBloc, ProjectsState>(
       builder: (context, state) {
           return Scaffold(
+              
         appBar: AppBar(
-          title: Text(
-            isEditing ? 'Edit Project' : 'Add Project',
-          ),
+            title: Text(
+              isEditing ? 'Edit Project' : 'Add Project',
+            ),
         
         ),
         body: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                TextFormField(
-                  initialValue: isEditing ? widget.project.name : '',
-                  autofocus: !isEditing,
-                  style: textTheme.headline,
-                  decoration: InputDecoration(
-                    hintText: 'Please Enter The Name Of The Project?',
+            padding: EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: ListView(
+                children: [
+                  TextFormField(
+                    initialValue: isEditing ? widget.project.name : '',
+                    autofocus: !isEditing,
+                    style: textTheme.headline,
+                    decoration: InputDecoration(
+          hintText: 'Please Enter The Name Of The Project?',
+                    ),
+                    validator: (val) {
+          return val.trim().isEmpty ? 'Please enter some text' : null;
+                    },
+                    onSaved: (value) => _name = value,
                   ),
-                  validator: (val) {
-                    return val.trim().isEmpty ? 'Please enter some text' : null;
-                  },
-                  onSaved: (value) => _name = value,
-                ),
-                TextFormField(
-                  initialValue:
-                      isEditing ? widget.project.user : _userName.username,
-                  style: textTheme.subhead,
-                  decoration: InputDecoration(
-                    hintText: 'Please ',
-                  ),
-                  onSaved: (value) => _user = value,
-                )
-              ],
+                  TextFormField(
+                    initialValue:
+            isEditing ? widget.project.user : _userName.username,
+                    style: textTheme.subhead,
+                    decoration: InputDecoration(
+          hintText: 'Please ',
+                    ),
+                    onSaved: (value) => _user = value,
+                  )
+                ],
+              ),
             ),
-          ),
         ),
         floatingActionButton: FloatingActionButton(
-          tooltip: isEditing ? 'Save changes' : 'Add Todo',
-          child: Icon(isEditing ? Icons.check : Icons.save),
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
-              _formKey.currentState.save();
-              //widget.onSave(_name, _user, false);
-              //BlocProvider.of<ProjectsBloc>(context).
-             _onFormSubmitted();
-             _projectsBloc.asBroadcastStream();
-                      
-              Navigator.of(context).pop();
-            }
-          },
+            tooltip: isEditing ? 'Save changes' : 'Add Todo',
+            child: Icon(isEditing ? Icons.check : Icons.save),
+            onPressed: () {
+              if (_formKey.currentState.validate()) {
+                _formKey.currentState.save();
+                //widget.onSave(_name, _user, false);
+                //BlocProvider.of<ProjectsBloc>(context).
+               _onFormSubmitted();
+               _projectsBloc.asBroadcastStream();
+            
+                Navigator.of(context).pop();
+              }
+            },
         ),
       );
       }

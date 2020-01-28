@@ -58,6 +58,26 @@ class FirebaseProjectRepository implements ProjectRepository {
           return _projectsController.stream;
 
   }
+  @override
+   Future<void> addNewProjectFile(Project project, String company, String file){
+
+   }
+  @override
+  Future<void> deleteProjectFile(Project project, String company, String file){
+
+  }
+  @override
+  Stream<List<Project>> projectFiles(String company, Project project){
+
+  }
+  @override
+  Future<void> updateProjectFiles(Project project, String company){
+
+  }
+  @override
+  Stream listenToProjectFilesRealTime(String company, Project project){
+    
+  }
 
 }
 

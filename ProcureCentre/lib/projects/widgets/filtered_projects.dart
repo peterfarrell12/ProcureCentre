@@ -19,7 +19,7 @@ class FilteredProject extends StatefulWidget {
 }
 
 class _FilteredProjectState extends State<FilteredProject> {
-  User get _user => widget.user;
+  //User get _user => widget.user;
 
   @override
   Widget build(BuildContext context) {

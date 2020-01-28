@@ -27,16 +27,18 @@ class ProjectItem extends StatelessWidget {
           value: project.complete,
           onChanged: onCheckboxChanged,
         ),
-        title: Hero(
-          tag: '${project.name}__heroTag',
-          child: Container(
+        title: 
+        // Hero(
+          // tag: '${project.name}__heroTag',
+          // child: 
+          Container(
             width: MediaQuery.of(context).size.width,
             child: Text(
               project.name,
               //style: Theme.of(context).textTheme.title,
             ),
           ),
-        ),
+       // ),
         subtitle: project.user.isNotEmpty
             ? Text(
                 project.user,

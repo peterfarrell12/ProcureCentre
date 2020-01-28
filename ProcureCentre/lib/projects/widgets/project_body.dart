@@ -23,109 +23,162 @@ class _ProjectBodyState extends State<ProjectBody> {
       bloc: _currentProjectBloc,
       builder: (context, state) {
         if (state is CurrentProjectLoaded) {
-          return Container(
-            decoration: BoxDecoration(
-                border: Border(
-              left: BorderSide(
-                //                   <--- left side
-                color: Colors.grey,
-                width: 1.0,
-              ),
-            )),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          state.currentProject.name,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                
-                
+          return SingleChildScrollView(
+                      child: Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                left: BorderSide(
+                  //                   <--- left side
+                  color: Colors.grey,
+                  width: 1.0,
                 ),
-                //Details Row
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
+              )),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          child: _infoCard(Icon(Icons.create, color: Colors.white), '27-Dec-1996', 'Created On', context),
-                        ),
-                         Container(
-                          child: _infoCard(Icon(Icons.person_outline, color: Colors.white), state.currentProject.user, "Owner", context),
-                        ),
-                        //  Container(
-                        //   child: _infoCard(cardIcon, titleText, subTitleText, context),
-                        // ),
-
-                      ],
-                    ),
-                  ),
-                ),
-
-                //Actions Row
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                          child: _featureCard(
-                              'Spend Data Extraction',
-                              "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                              Colors.lightBlueAccent,
-                              _featureButton(
-                                  ExtractionScreen(), Colors.lightBlue, context),
-                                  context),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            elevation: 5,
+                            color: Colors.white,
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Text(
+                              state.currentProject.name,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                            ),
+                                                    ),
+                          ),
                         ),
-                        Container(
-                          child: _featureCard(
-                              'Spend Classification',
-                              "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                              Colors.redAccent,
-                              _featureButton(
-                                  ClassificationScreen(), Colors.red, context),
-                                  context),
-                        ),
-                        Container(
-                          child: _featureCard(
-                              'Dashboard',
-                              "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                              Colors.greenAccent,
-                              _featureButton(
-                                  DashboardScreen(), Colors.green, context),
-                                  context),
-                        ),
-                        Container(
-                          child: _featureCard(
-                              'Tender Creation',
-                              "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                              Colors.amberAccent,
-                            
-                              _featureButton(
-                                  TenderScreen(), Colors.amber, context),
-                                  context),
-                        )
                       ],
                     ),
                   ),
-                ),
-               
-              ],
+                  //Details Row
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: _infoCard(
+                                  Icon(Icons.create, color: Colors.blue),
+                                  '27-Dec-1996',
+                                  'Created On',
+                                  context),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              child: _infoCard(
+                                  Icon(Icons.person_outline, color: Colors.blue),
+                                  state.currentProject.user,
+                                  "Owner",
+                                  context),
+                            ),
+                          ),
+                         
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: _descriptionCard("This is the description of the project", context),
+                    ),
+                  ),
+
+                  //Actions Row
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          
+                          //mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              child: _featureCard(
+                                  'Spend Data Extraction',
+                                  "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+                                  Colors.lightBlueAccent,
+                                  Colors.lightBlue,
+                                  (){Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ExtractionScreen();
+                    },
+                  ),
+                                  );},
+                                  context),
+                            ),
+                            Container(
+                              child: _featureCard(
+                                  'Spend Classification',
+                                  "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+                                  Colors.redAccent,
+                                  Colors.red,
+                                  (){Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return ClassificationScreen();
+                    },
+                  ),
+                                  );},
+                                  context),
+                            ),
+                            Container(
+                              child: _featureCard(
+                                  'Dashboard',
+                                  "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+                                  Colors.greenAccent,
+                                  Colors.green,
+                                 (){ Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return DashboardScreen();
+                    },
+                  ),
+                                  );},
+                                  context),
+                            ),
+                     
+                        
+                             Container(
+                                child: _featureCard(
+                  'Tender Creation',
+                  "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+                  Colors.amberAccent,
+                  Colors.amber,
+                  (){Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return TenderScreen();
+                      },
+                    ),
+                  );},
+                  context),
+                              ),
+                            
+                            
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           );
         } else {
@@ -153,26 +206,27 @@ class _ProjectBodyState extends State<ProjectBody> {
   }
 }
 
-_featureButton(page, Color color, context) {
-  return RaisedButton(
-      child: Icon(
-        FontAwesomeIcons.solidArrowAltCircleRight,
-        color: Colors.white,
-      ),
-      //Text(buttonText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-      color: color,
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) {
-              return page;
-            },
-          ),
-        );
-      });
-}
+// _featureButton(page, Color color, context) {
+//   return RaisedButton(
+//       child: Icon(
+//         FontAwesomeIcons.solidArrowAltCircleRight,
+//         color: Colors.white,
+//       ),
+//       //Text(buttonText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+//       color: color,
+//       onPressed: () {
+//         Navigator.of(context).push(
+//           MaterialPageRoute(
+//             builder: (context) {
+//               return page;
+//             },
+//           ),
+//         );
+//       });
+// }
 
-_featureCard(title, description, Color color, _featureButton, context) {
+_featureCard(
+    title, description, Color color, Color _buttonColor, _onPressed, context) {
   return Card(
     color: color,
     elevation: 5,
@@ -193,14 +247,13 @@ _featureCard(title, description, Color color, _featureButton, context) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Expanded(
-
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .13,
-                child: Text(description, overflow: TextOverflow.clip,
-                maxLines: 5,
+              child: Container(
+                width: MediaQuery.of(context).size.width * .13,
+                child: Text(description,
+                    overflow: TextOverflow.clip,
+                    maxLines: 5,
                     style: TextStyle(
                       color: Colors.white,
-                      
                     )),
               ),
             ),
@@ -208,7 +261,15 @@ _featureCard(title, description, Color color, _featureButton, context) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              child: _featureButton,
+              child: RaisedButton(
+                
+                  child: Icon(
+                    FontAwesomeIcons.solidArrowAltCircleRight,
+                    color: Colors.white,
+                  ),
+                  //Text(buttonText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  color: _buttonColor,
+                  onPressed: _onPressed),
             ),
           )
         ],
@@ -217,27 +278,31 @@ _featureCard(title, description, Color color, _featureButton, context) {
   );
 }
 
-_infoCard(Icon cardIcon, String titleText, String subTitleText, context){
+_infoCard(Icon cardIcon, String titleText, String subTitleText, context) {
   return Container(
     width: MediaQuery.of(context).size.width * .2,
-    // decoration: BoxDecoration(
-    //   border: Border.all(
-    //   width: 3.0
-    // ),
-    // borderRadius: BorderRadius.all(
-    //     Radius.circular(10.0) //       
-    // ),
- //),
-    
     child: Card(
-
       elevation: 5,
-      color: Colors.lightBlue,
+      color: Colors.white,
       child: ListTile(
         leading: cardIcon,
-        title: Text(titleText, style: TextStyle(color: Colors.white)),
-        subtitle: Text(subTitleText,style: TextStyle(color: Colors.white)),
+        title: Text(titleText, style: TextStyle(color: Colors.blue),overflow: TextOverflow.clip,maxLines: 1,),
+        subtitle: Text(subTitleText, style: TextStyle(color: Colors.grey,),overflow: TextOverflow.clip,maxLines: 1,),
       ),
     ),
   );
 }
+
+_descriptionCard(String text, context){
+  return Container(
+    width: MediaQuery.of(context).size.width * .4,
+        height: MediaQuery.of(context).size.height * .15,
+
+    child: Card(
+      elevation: 5,
+      color: Colors.white,
+      child: Center(child: Text(text, style: TextStyle(color: Colors.grey),))
+    ),
+  );
+}
+
