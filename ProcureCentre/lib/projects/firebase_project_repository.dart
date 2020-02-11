@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:html';
+import 'dart:typed_data';
 
 
 
@@ -7,13 +9,17 @@ import 'package:firebase/firestore.dart' as fs;
 
 import 'package:firebase/firebase.dart' as fb;
 
+
 import 'entities/project_entity.dart';
 import 'models/project.dart';
+
 
 
 class FirebaseProjectRepository implements ProjectRepository {
 
     fs.Firestore store = fb.firestore();
+    //fb.UploadTask _uploadTask;
+
 
     final StreamController<List<Project>> _projectsController = StreamController<List<Project>>.broadcast();
 
@@ -58,12 +64,20 @@ class FirebaseProjectRepository implements ProjectRepository {
           return _projectsController.stream;
 
   }
-  @override
-   Future<void> addNewProjectFile(Project project, String company, String file){
 
-   }
+
   @override
-  Future<void> deleteProjectFile(Project project, String company, String file){
+   Future<void> addNewProjectFile(Project project, String company, File uploadFile)async{
+    store.collection('companies').doc(company).collection('projects').doc(project.id).update(data: {'test':'downloadUrlTest', }, fieldsAndValues: ['Files']);
+
+    return fb.storage().ref('/Files/procurecentre.appspot.com/PDFs')
+          .child("filePath")
+          .put(uploadFile);
+  
+  }
+   
+  @override
+  Future<void> deleteProjectFile(Project project, String company, File uploadFile){
 
   }
   @override
@@ -71,7 +85,7 @@ class FirebaseProjectRepository implements ProjectRepository {
 
   }
   @override
-  Future<void> updateProjectFiles(Project project, String company){
+  Future<void> updateProjectFiles(Project project, String company, File file){
 
   }
   @override
@@ -80,4 +94,13 @@ class FirebaseProjectRepository implements ProjectRepository {
   }
 
 }
+
+
+
+
+
+//   final output = await getTemporaryDirectory();
+//   final file = File("${output.path}/example.pdf");
+
+
 

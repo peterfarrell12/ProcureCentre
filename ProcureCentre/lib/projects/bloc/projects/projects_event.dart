@@ -1,4 +1,6 @@
 //import 'package:ProcureCentre/projects/models/project.dart';
+import 'dart:html';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../project_repository.dart';
@@ -34,6 +36,19 @@ class AddProject extends ProjectEvent {
 
   @override
   String toString() => 'AddProject { project: $project  company: $company}';
+}
+class AddProjectFile extends ProjectEvent {
+  final Project project;
+  final String company;
+  final File file;
+
+  const AddProjectFile(this.project, this.company, this.file);
+
+  @override
+  List<Object> get props => [project, company, file];
+
+  @override
+  String toString() => 'AddProjectFiles { ProjectFiles: $project  company: $company, file: $file}';
 }
 
 class UpdateProject extends ProjectEvent {

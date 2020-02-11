@@ -37,21 +37,21 @@ class ProjectFilesBloc extends Bloc<ProjectFilesEvent, ProjectFilesState> {
 
    Stream<ProjectFilesState> _mapLoadProjectFilesToState(LoadProjectFiles event) async* {
     _projectFilesSubscription?.cancel();
-     _projectFilesRepository.listenToProjectFilesRealTime(event.company, event.project).listen(
+     _projectFilesRepository.listenToProjectFilesRealTime(event.company, event.project, ).listen(
           (projectFiles) => add(ProjectFilesUpdated(projectFiles)),
         );
   }
 
   Stream<ProjectFilesState> _mapAddProjectToState(AddProjectFiles event) async* {
-    _projectFilesRepository.addNewProject(event.project, event.company);
+    _projectFilesRepository.addNewProjectFile(event.project, event.company, event.file);
   }
 
   Stream<ProjectFilesState> _mapUpdateProjectToState(UpdateProjectFiles event) async* {
-    _projectFilesRepository.updateProject(event.updatedProject, event.company);
+    _projectFilesRepository.updateProjectFiles(event.updatedProject, event.company, event.file);
   }
 
   Stream<ProjectFilesState> _mapDeleteProjectToState(DeleteProjectFiles event) async* {
-    _projectFilesRepository.deleteProject(event.project, event.company);
+    _projectFilesRepository.deleteProjectFile(event.project, event.company, event.file);
   }
 
 

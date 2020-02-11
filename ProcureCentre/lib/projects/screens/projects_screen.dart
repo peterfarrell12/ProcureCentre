@@ -47,9 +47,8 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                       projectsBloc: BlocProvider.of<ProjectsBloc>(context),
                     ))
           ],
-          child: BlocBuilder<ProjectsBloc,ProjectsState>(
-            builder: (context, state) {
-            
+          child: BlocBuilder<ProjectsBloc, ProjectsState>(
+              builder: (context, state) {
             return Row(
               children: <Widget>[
                 Container(
@@ -59,20 +58,25 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                     appBar: AppBar(
                       title: Text('${_user.company} Projects'),
                       actions: [
-                                    IconButton(icon: Icon(Icons.refresh), iconSize: 20, color: Colors.white, onPressed: (){
-                                      BlocProvider.of<ProjectsBloc>(context)
-                      .add(LoadProjects(_user.company));
-                                    }),
-
-                        FilterButton(
-                            visible: true, 
-                            user: _user),
-                          
-                        IconButton(icon: Icon(Icons.more_vert), iconSize: 20, color: Colors.white, onPressed: (){},),
+                        IconButton(
+                            icon: Icon(Icons.refresh),
+                            iconSize: 20,
+                            color: Colors.white,
+                            onPressed: () {
+                              BlocProvider.of<ProjectsBloc>(context)
+                                  .add(LoadProjects(_user.company));
+                            }),
+                        FilterButton(visible: true, user: _user),
+                        IconButton(
+                          icon: Icon(Icons.more_vert),
+                          iconSize: 20,
+                          color: Colors.white,
+                          onPressed: () {},
+                        ),
                       ],
                     ),
-                    body: //ctiveTab == AppTab.projects
-                        //?
+                    body: 
+                   
                         Row(
                       children: <Widget>[
                         Container(
@@ -85,26 +89,27 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         Container(
                             width: MediaQuery.of(context).size.width * .68,
                             height: double.infinity,
-                            child: ProjectBody()),
-                        
+                            child: ProjectBody(_user.company)),
                       ],
                     ),
                     floatingActionButton: FloatingActionButton(
-                          onPressed: (){
-                                    Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              return       BlocProvider<ProjectsBloc>(
-              create: (context) => ProjectsBloc(
-                projectsRepository: FirebaseProjectRepository(),
-              ), child: AddEditScreen(isEditing: false, user: _user,));
-      
-            }),
-          );
-                            
-                          } ,
-                          child: Icon(Icons.add),
-                          tooltip: "Add A New Project",
-                        ) ,
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            child: BlocProvider<ProjectsBloc>(
+                                create: (context) => ProjectsBloc(
+                                      projectsRepository:
+                                          FirebaseProjectRepository(),
+                                    ),
+                                child: AddEditScreen(
+                                  isEditing: false,
+                                  user: _user,
+                                )));
+                        //
+                      },
+                      child: Icon(Icons.add),
+                      tooltip: "Add A New Project",
+                    ),
                   ),
                 ),
               ],
@@ -113,18 +118,11 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
         ),
       ),
     );
-    //:
-    //Container(child: Text('Hi'),),
-
-    // bottomNavigationBar: TabSelector(
-    //   activeTab: activeTab,
-    //   onTabSelected: (tab) =>
-    //       BlocProvider.of<TabBloc>(context)
-    //           .add(UpdateTab(tab)),
-    // ),
+  
   }
+
   @override
- void dispose() {
-   super.dispose();
- }
+  void dispose() {
+    super.dispose();
+  }
 }

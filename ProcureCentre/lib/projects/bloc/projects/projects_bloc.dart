@@ -29,6 +29,9 @@ class ProjectsBloc extends Bloc<ProjectEvent, ProjectsState> {
     } else if (event is ProjectsUpdated) {
       yield* _mapProjectsUpdateToState(event);
     }
+    else if (event is AddProjectFile) {
+      yield* _mapAddNewFileToState(event);
+    }
   }
 
    Stream<ProjectsState> _mapLoadProjectsToState(LoadProjects event) async* {
@@ -53,6 +56,10 @@ class ProjectsBloc extends Bloc<ProjectEvent, ProjectsState> {
 
   Stream<ProjectsState> _mapProjectsUpdateToState(ProjectsUpdated event) async* {
     yield ProjectsLoaded(event.projects);
+  }
+
+  Stream<ProjectsState> _mapAddNewFileToState(AddProjectFile event) async* {
+   _projectsRepository.addNewProjectFile(event.project, event.company, event.file);
   }
 
   @override

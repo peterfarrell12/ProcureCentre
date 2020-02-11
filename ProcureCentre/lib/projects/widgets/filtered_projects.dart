@@ -1,4 +1,5 @@
 import 'package:ProcureCentre/authentication/models/user.dart';
+import 'package:ProcureCentre/project_repository.dart';
 import 'package:ProcureCentre/projects/bloc/blocs.dart';
 import 'package:ProcureCentre/projects/bloc/current_project/bloc.dart';
 import 'package:ProcureCentre/projects/widgets/widgets.dart';
@@ -57,6 +58,61 @@ class _FilteredProjectState extends State<FilteredProject> {
                         widget.user.company),
                   );
    
+                },
+
+                popUp:
+                   PopupMenuButton<Status>(
+      tooltip: 'Change Status',
+      onSelected:(Status result) {
+        String r;
+        if (result == Status.initial) {
+           r = 'Initial';
+        }
+        else if (result == Status.inProgress){
+         r = 'In Progress';
+        }
+        else {
+           r = 'Completed';
+        }
+          BlocProvider.of<ProjectsBloc>(context).add(
+                    UpdateProject(project.copyWith(status: r),
+                        widget.user.company),
+                  );
+      } ,
+      itemBuilder: (BuildContext context) => <PopupMenuItem<Status>>[
+        PopupMenuItem<Status>(
+          value: Status.initial,
+          child: Text(
+            'Mark Inital',
+          ),
+        ),
+         PopupMenuItem<Status>(
+          value: Status.inProgress,
+          child: Text(
+            'Mark In Progress',  
+          ),
+        ),
+                 PopupMenuItem<Status>(
+          value: Status.completed,
+          child: Text(
+            'Mark Completed',  
+          ),
+        ),
+        
+      ],
+      icon: Icon(Icons.filter_list),
+    ),
+                
+
+                deleteTapped: (){
+                  BlocProvider.of<ProjectsBloc>(context)
+                      .add(DeleteProject(project, widget.user.company));
+             
+                  Scaffold.of(context).showSnackBar(DeleteProjectSnackBar(
+                    project: project,
+                    onUndo: () => BlocProvider.of<ProjectsBloc>(context)
+                        .add(AddProject(project, widget.user.company)),
+                  ));
                 },
               );
             },

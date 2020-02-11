@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../project_repository.dart';
@@ -26,7 +28,7 @@ class LoadProjectFiles extends ProjectFilesEvent {
 class AddProjectFiles extends ProjectFilesEvent {
   final Project project;
   final String company;
-  final String file;
+  final File file;
 
   const AddProjectFiles(this.project, this.company, this.file);
 
@@ -40,7 +42,7 @@ class AddProjectFiles extends ProjectFilesEvent {
 class UpdateProjectFiles extends ProjectFilesEvent {
   final Project updatedProject;
   final String company;
-  final String file;
+  final File file;
 
   const UpdateProjectFiles(this.updatedProject, this.company, this.file);
 
@@ -54,7 +56,7 @@ class UpdateProjectFiles extends ProjectFilesEvent {
 class DeleteProjectFiles extends ProjectFilesEvent {
   final Project project;
   final String company;
-  final String file;
+  final File file;
 
   const DeleteProjectFiles(this.project, this.company, this.file);
 

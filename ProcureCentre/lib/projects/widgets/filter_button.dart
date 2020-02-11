@@ -78,10 +78,19 @@ class _Button extends StatelessWidget {
           ),
         ),
         PopupMenuItem<VisibilityFilter>(
-          value: VisibilityFilter.active,
+          value: VisibilityFilter.inital,
           child: Text(
-            'Active Projects',
-            style: activeFilter == VisibilityFilter.active
+            'Initial Phase',
+            style: activeFilter == VisibilityFilter.inital
+                ? activeStyle
+                : defaultStyle,
+          ),
+        ),
+                PopupMenuItem<VisibilityFilter>(
+          value: VisibilityFilter.inProgress,
+          child: Text(
+            'In Progress',
+            style: activeFilter == VisibilityFilter.inProgress
                 ? activeStyle
                 : defaultStyle,
           ),

@@ -74,12 +74,21 @@ class FilteredProjectsBloc extends Bloc<FilteredProjectsEvent, FilteredProjectSt
     return projects.where((project) {
       if (filter == VisibilityFilter.all) {
         return true;
-      } else if (filter == VisibilityFilter.active) {
-        return !project.complete;
+        
+      } 
+      else if (filter == VisibilityFilter.inital) {
+        return project.status == 'Initial';
+      }
+      else if (filter == VisibilityFilter.inProgress) {
+        return project.status == 'In Progress';
+      }
+        else if (filter == VisibilityFilter.completed) {
+        return project.status == 'Completed';
       }
         else if (filter == VisibilityFilter.user) {
         return project.user == currentUser.username;
-      } else {
+      } 
+      else {
         return project.complete;
       }
     }).toList();

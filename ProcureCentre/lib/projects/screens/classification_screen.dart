@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:html';
-import 'dart:http';
+//import 'dart:http';
 
 class ClassificationScreen extends StatelessWidget {
   @override
@@ -49,16 +49,16 @@ uploadInput.onChange.listen((e) {
 });
 }
 
-_sendToApi() async {
-  var uri = Uri.parse("http://pub.dartlang.org/packages/create");
-var request = new http.MultipartRequest("POST", url);
-request.fields['user'] = 'john@doe.com';
-request.files.add(new http.MultipartFile.fromFile(
-    'package',
-    new File('build/package.tar.gz'),
-    contentType: new ContentType('application', 'x-tar'));
-request.send().then((response) {
-  if (response.statusCode == 200) print("Uploaded!");
-});
-}
+// _sendToApi() async {
+//   var uri = Uri.parse("http://pub.dartlang.org/packages/create");
+// var request = new http.MultipartRequest("POST", url);
+// request.fields['user'] = 'john@doe.com';
+// request.files.add(new http.MultipartFile.fromFile(
+//     'package',
+//     new File('build/package.tar.gz'),
+//     contentType: new ContentType('application', 'x-tar'));
+// request.send().then((response) {
+//   if (response.statusCode == 200) print("Uploaded!");
+// });
+// }
 }
