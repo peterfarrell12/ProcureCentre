@@ -12,7 +12,9 @@ Future<String> loginToApi() async {
     'Content-Type': 'application/json',
   };
 
-  var data = '{"username": "pefarrell@crh.com", "password": "Peterf4282"}';
+  print('logging in');
+
+  var data = '{"username": "XXXXX", "password": "XXXXX"}';
 
   var res = await http.post('https://api.elis.rossum.ai/v1/auth/login',
       headers: loginHeaders, body: data);
