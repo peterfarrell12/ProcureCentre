@@ -1,5 +1,5 @@
-import 'dart:math';
 
+import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:meta/meta.dart';
 import '../entities/entities.dart';
 
@@ -19,12 +19,13 @@ class Project {
   final Map<String, dynamic> dashboard;
   final Map<String, dynamic> tenderCreation;
 
+
   Project(this.user, {this.complete = false, 
   String name = '', String id, String description = '', DateTime created, String status = '',
-  List<String> teamMembers ,Map<String, dynamic> fileNames, Map<String, dynamic> extraction,
+  List<String> teamMembers, Map<String, dynamic> fileNames, Map<String, dynamic> extraction,
    Map<String, dynamic> classification,
   Map<String, dynamic> dashboard,
-   Map<String, dynamic> tenderCreation})
+   Map<String, dynamic> tenderCreation })
       : this.name = name ?? '',
         this.id = id,
         this.description = description ?? '',
@@ -42,7 +43,8 @@ class Project {
   List<String> teamMembers,Map<String, dynamic> fileNames, Map<String, dynamic> extraction,
    Map<String, dynamic> classification,
   Map<String, dynamic> dashboard,
-   Map<String, dynamic> tenderCreation}) {
+   Map<String, dynamic> tenderCreation,
+  }) {
     return Project(
       user ?? this.user,
       complete: complete ?? this.complete,
@@ -56,13 +58,15 @@ class Project {
       extraction: extraction ?? this.extraction,
       classification: classification ?? this.classification,
       dashboard: dashboard ?? this.dashboard,
-      tenderCreation: tenderCreation ?? this.tenderCreation
+      tenderCreation: tenderCreation ?? this.tenderCreation,
+          
+
     );
   }
 
   @override
   int get hashCode =>
-      complete.hashCode ^ user.hashCode ^ name.hashCode ^ id.hashCode ^ description.hashCode ^ created.hashCode ^status.hashCode ^teamMembers.hashCode ^fileNames.hashCode ^extraction.hashCode^ classification.hashCode ^dashboard.hashCode ^tenderCreation.hashCode;
+      complete.hashCode ^ user.hashCode ^ name.hashCode ^ id.hashCode ^ description.hashCode ^ created.hashCode ^status.hashCode ^teamMembers.hashCode  ^fileNames.hashCode ^extraction.hashCode^ classification.hashCode ^dashboard.hashCode ^tenderCreation.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -83,13 +87,14 @@ class Project {
           dashboard == other.dashboard &&
           tenderCreation == other.tenderCreation;
 
+
   @override
   String toString() {
     return 'Project{complete: $complete, user: $user, name: $name, id: $id, description: $description, created: $created, status: $status}';
   }
 
   ProjectEntity toEntity() {
-    return ProjectEntity(user,id, name, complete, description, created, status, teamMembers, fileNames, classification, extraction, dashboard, tenderCreation);
+    return ProjectEntity(user,id, name, complete, description, created, status, teamMembers,  fileNames, classification, extraction, dashboard, tenderCreation);
   }
 
   static Project fromEntity(ProjectEntity entity) {
@@ -106,8 +111,9 @@ class Project {
       extraction: entity.extraction,
       classification: entity.classification,
       dashboard: entity.dashboard,
-      tenderCreation: entity.tenderCreation
-      
+      tenderCreation: entity.tenderCreation,
+      //data: entity.data,
+
     );
   }
 }

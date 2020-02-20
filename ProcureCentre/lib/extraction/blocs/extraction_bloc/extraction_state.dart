@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
@@ -21,31 +22,34 @@ class StateLoading extends ExtractionState {
 
 
 }
-// class FileChosenState extends ExtractionState {
-//   final Project project;
-//   final String fileName;
-//   final String fileURL;
+class RetrieveFilesState extends ExtractionState {
+  final Project project;
+  final DateTime startTime;
+  final DateTime endTime;
 
-//   const FileChosenState(this.project, this.fileName, this.fileURL);
-//   @override
-//   List<Object> get props => [project, fileName, fileURL];
+  const RetrieveFilesState({@required this.project, @required this.startTime, @required this.endTime});
 
-//   @override
-//   String toString() => 'File Chosen { Project: ${project.name}, File: $fileName }';
-// }
+  @override
+  List<Object> get props => [project, startTime, endTime];
+
+  @override
+  String toString() => 'Retrieving Data... { Project :${project.name} }';
+}
+
+class FilesCheckedState extends ExtractionState {
+  final List<DataPoint> items;
+
+  const FilesCheckedState({@required this.items});
+
+  @override
+  List<Object> get props => [items];
+
+  @override
+  String toString() => 'Data Checked - Upload To FB}';
+}
 
 
 class ExtractingState extends ExtractionState {
-  //  final Project project;
-  //  final String fileName;
-  //  final String fileURL;
-  //  final Object rResult;
-  //  final File file;
-
-
- // const ExtractingState(this.project, this.fileName, this.fileURL,this.rResult, this.file);
-
-
 
   @override
   List<Object> get props => [];
@@ -54,14 +58,19 @@ class ExtractingState extends ExtractionState {
   String toString() => 'Extracting';
 }
 
+class CheckingFilesState extends ExtractionState {
+
+}
+
 class ExtractedState extends ExtractionState {
    final Project project;
+   final List<DataPoint> data;
 
 
-  const ExtractedState(this.project);
+  const ExtractedState(this.project, this.data);
 
   @override
-  List<Object> get props => [project];
+  List<Object> get props => [project, data];
 
   @override
   String toString() => 'Extracted { Project: ${project.name} }';

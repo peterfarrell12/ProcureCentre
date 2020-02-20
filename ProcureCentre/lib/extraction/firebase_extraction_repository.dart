@@ -1,10 +1,13 @@
 import 'dart:html';
 
+import 'package:ProcureCentre/extraction/entities/data_entity.dart';
 import 'package:ProcureCentre/extraction/extraction_repository.dart';
 import 'package:ProcureCentre/projects/models/project.dart';
 import 'package:firebase/firestore.dart' as fs;
 
 import 'package:firebase/firebase.dart' as fb;
+
+import 'models/extracted_data.dart';
 
 class FirebaseExtractionRepository implements ExtractionRepository{
   fs.Firestore store = fb.firestore();
@@ -39,5 +42,30 @@ class FirebaseExtractionRepository implements ExtractionRepository{
     return url;
   }
 
-  
+  Future<void> addData(Project project, String company, List<DataPoint> data) async {
+    for(var i = 0; i < data.length; i++)  {
+      await store.collection("companies")
+        .doc(company)
+        .collection('projects')
+        .doc(project.id)
+        .collection('data')
+        .add(data[i].toEntity().toDocument());
+    }
+
+    return '${data.length} number of items uploaded';        
+  }
+
+  @override
+  Future<List<DataPoint>> getData(Project project, String company, ) async {
+    var qShot = await store
+        .collection("companies")
+        .doc(company)
+        .collection('projects')
+        .doc(project.id)
+        .collection('data')
+        .get();
+
+        return qShot.docs.map((e) => DataPoint.fromEntity(DataEntity.fromJson(e.data()))).toList();
+   
+  }
 }

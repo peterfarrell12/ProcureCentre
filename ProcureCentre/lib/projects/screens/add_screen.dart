@@ -1,4 +1,5 @@
 import 'package:ProcureCentre/authentication/models/user.dart';
+import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:ProcureCentre/projects/bloc/blocs.dart';
 import 'package:ProcureCentre/projects/models/project.dart';
 import 'package:flutter/foundation.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase/firestore.dart' as fs;
 import 'package:firebase/firebase.dart' as fb;
-import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 
 //typedef OnSaveCallback = Function(String name, String user, bool completed,);
@@ -36,6 +36,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
   String _description;
   String owner;
   List<String> teamMembers;
+  List<DataPoint> data;
   bool add = false;
 
   bool get isEditing => widget.isEditing;
@@ -210,6 +211,7 @@ class _AddEditScreenState extends State<AddEditScreen> {
              created: DateTime.now(),
              status: 'Initial',
              teamMembers: teamMembers,
+             //data : data,
             extraction: {'Completed': false},
             classification: {'Completed': false},
             dashboard: {'Completed': false},

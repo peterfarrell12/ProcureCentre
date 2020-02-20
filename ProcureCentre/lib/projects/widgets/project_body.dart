@@ -1,20 +1,19 @@
-import 'dart:html';
+import 'dart:html' as html;
 
+import 'package:ProcureCentre/classification/screens/classification_screen.dart';
+import 'package:ProcureCentre/extraction/firebase_extraction_repository.dart';
 import 'package:ProcureCentre/extraction/screens/extraction_home.dart';
 import 'package:ProcureCentre/project_repository.dart';
 import 'package:ProcureCentre/projects/bloc/current_project/bloc.dart';
 
-import 'package:ProcureCentre/projects/screens/classification_screen.dart';
 import 'package:ProcureCentre/projects/screens/dashboard_screen.dart';
-import 'package:ProcureCentre/projects/screens/extraction_screen.dart';
 import 'package:ProcureCentre/projects/screens/tender_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:universal_html/prefer_universal/html.dart' as html;
 import 'package:firebase/firebase.dart' as fb;
-
 import 'package:intl/intl.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectBody extends StatefulWidget {
@@ -195,13 +194,14 @@ class _ProjectBodyState extends State<ProjectBody> {
                                 'Spend Data Extraction',
                                 "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
                                 Colors.lightBlueAccent,
-                                Colors.lightBlue, () {
+                                Colors.lightBlue, ()  {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return ExtractionHomeScreen(
+                                    return ExtractionHomeScreen (
                                       project: state.currentProject,
                                       company: _company,
+                                     
                                     );
                                   },
                                 ),
@@ -217,7 +217,7 @@ class _ProjectBodyState extends State<ProjectBody> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return ClassificationScreen();
+                                    return ClassificationScreen(project: state.currentProject, company: _company);
                                   },
                                 ),
                               );

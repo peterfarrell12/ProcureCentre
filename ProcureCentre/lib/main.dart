@@ -20,15 +20,15 @@ void main() {
       create: (context) => AuthenticationBloc(
         userRepository: userRepository,
       )..add(AppStarted()),
-      child: App(userRepository: userRepository),
+      child: MyApp(userRepository: userRepository),
     ),
   );
 }
 
-class App extends StatelessWidget {
+class MyApp extends StatelessWidget {
   final UserRepository _userRepository;
 
-  App({Key key, @required UserRepository userRepository})
+  MyApp({Key key, @required UserRepository userRepository})
       : assert(userRepository != null),
         _userRepository = userRepository,
         super(key: key);

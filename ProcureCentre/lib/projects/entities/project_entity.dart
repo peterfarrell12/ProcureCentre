@@ -1,3 +1,4 @@
+import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase/firestore.dart' as fs;
 
@@ -17,19 +18,20 @@ class ProjectEntity extends Equatable {
   final Map<String, dynamic> tenderCreation;
 
   const ProjectEntity(
-      this.user,
-      this.id,
-      this.name,
-      this.complete,
-      this.description,
-      this.created,
-      this.status,
-      this.teamMembers,
-      this.fileNames,
-      this.extraction,
-      this.classification,
-      this.dashboard,
-      this.tenderCreation);
+    this.user,
+    this.id,
+    this.name,
+    this.complete,
+    this.description,
+    this.created,
+    this.status,
+    this.teamMembers,
+    this.fileNames,
+    this.extraction,
+    this.classification,
+    this.dashboard,
+    this.tenderCreation,
+  );
 
   Map<String, Object> toJson() {
     return {
@@ -44,7 +46,7 @@ class ProjectEntity extends Equatable {
       "Extraction": extraction,
       "Classification": classification,
       "Dashboard": dashboard,
-      "Tender Creation": tenderCreation
+      "Tender Creation": tenderCreation,
     };
   }
 
@@ -61,7 +63,7 @@ class ProjectEntity extends Equatable {
         extraction,
         classification,
         dashboard,
-        tenderCreation
+        tenderCreation,
       ];
 
   @override
@@ -89,20 +91,19 @@ class ProjectEntity extends Equatable {
 
   static ProjectEntity fromSnapshot(fs.DocumentSnapshot snap) {
     return ProjectEntity(
-      snap.data()['User'],
-      snap.id,
-      snap.data()['Name'],
-      snap.data()['Completed'],
-      snap.data()['Description'],
-      snap.data()['Created'],
-      snap.data()['Status'],
-      snap.data()['Team Members'],
-      snap.data()['Files'],
-      snap.data()['Extraction'],
-      snap.data()['Classification'],
-      snap.data()['Dashboard'],
-      snap.data()['Tender Creation'],
-    );
+        snap.data()['User'],
+        snap.id,
+        snap.data()['Name'],
+        snap.data()['Completed'],
+        snap.data()['Description'],
+        snap.data()['Created'],
+        snap.data()['Status'],
+        snap.data()['Team Members'],
+        snap.data()['Files'],
+        snap.data()['Extraction'],
+        snap.data()['Classification'],
+        snap.data()['Dashboard'],
+        snap.data()['Tender Creation']);
   }
 
   Map<String, Object> toDocument() {
@@ -118,7 +119,7 @@ class ProjectEntity extends Equatable {
       "Extraction": extraction,
       "Classification": classification,
       "Dashboard": dashboard,
-      "Tender Creation": tenderCreation
+      "Tender Creation": tenderCreation,
     };
   }
 }

@@ -4,7 +4,6 @@ import 'package:ProcureCentre/extraction/widgets/service.dart';
 import 'package:ProcureCentre/projects/bloc/blocs.dart';
 import 'dart:typed_data';
 
-import 'package:ProcureCentre/extraction/screens/extract.dart';
 import 'package:ProcureCentre/project_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +44,7 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
       reader.onLoadEnd.listen((e)   {
         //_handleResult(reader.result);
         //await sendFile(reader.result, file.name);
-        BlocProvider.of<ExtractionBloc>(context).add(ExtractBegin(project: _project, company: _company, fileName: file.name, rResult: reader.result, file: file));
+        BlocProvider.of<ExtractionBloc>(context).add(ExtractBegin(project: _project, company: _company,  rResult: reader.result, file: files));
             //uploadToFirebase(file);
               print('getting to load end event');
               BlocProvider.of<ProjectsBloc>(context).add(
@@ -57,12 +56,6 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
     });
   }
 
-  // void _handleResult(Object result) {
-  //   setState(() {
-  //     _bytesData = Base64Decoder().convert(result.toString().split(",").last);
-  //     _selectedFile =  _bytesData;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,20 +63,10 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
       bloc: _extractionBloc,
       builder: (context, state) {
   
-          return Scaffold(
-            appBar: AppBar(
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              title: Text("Spend Data Extraction"),
-            ),
-            body: Center(
+          return  Center(
               child: Container(
-                //height: MediaQuery.of(context).size.height * .6,
-                //width: MediaQuery.of(context).size.width * .4,
+                height: MediaQuery.of(context).size.height * .4,
+                width: MediaQuery.of(context).size.width * .3,
                 child: Card(
                     elevation: 5,
                     color: Colors.white,
@@ -96,7 +79,11 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                                "Would you like to upload a new PDF or use one already uploaded?"),
+                                "Upload PDF File", style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25,
+                                  color: Colors.blue
+                                ),),
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -105,8 +92,10 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
                               children: <Widget>[
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                      child: Text('Upload New PDF'),
+                                  child: IconButton(
+                                    icon: Icon(Icons.file_upload),
+                                    color: Colors.blue,
+                          
                                       onPressed: () {
                                         startWebFilePicker();
                                       }),
@@ -123,8 +112,8 @@ class _ExtractingScreenState extends State<ExtractingScreen> {
                       ),
                     )),
               ),
-            ),
-          );
+            );
+          
         }
       
     );

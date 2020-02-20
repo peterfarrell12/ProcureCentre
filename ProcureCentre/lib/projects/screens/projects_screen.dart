@@ -56,6 +56,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   height: double.infinity,
                   child: Scaffold(
                     appBar: AppBar(
+                      elevation: 0,
                       title: Text('${_user.company} Projects'),
                       actions: [
                         IconButton(
