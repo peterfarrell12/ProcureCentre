@@ -1,13 +1,17 @@
 import 'dart:html' as html;
 
+import 'package:ProcureCentre/classification/bloc/classification_bloc.dart';
+import 'package:ProcureCentre/classification/screens/classification_main.dart';
 import 'package:ProcureCentre/classification/screens/classification_screen.dart';
-import 'package:ProcureCentre/extraction/firebase_extraction_repository.dart';
+import 'package:ProcureCentre/classification/screens/test_class.dart';
+import 'package:ProcureCentre/dashboard/screens/dashboard_screen.dart';
 import 'package:ProcureCentre/extraction/screens/extraction_home.dart';
+import 'package:ProcureCentre/extraction/screens/extraction_main.dart';
+import 'package:ProcureCentre/home/widgets/colours.dart';
 import 'package:ProcureCentre/project_repository.dart';
 import 'package:ProcureCentre/projects/bloc/current_project/bloc.dart';
+import 'package:ProcureCentre/tender/screens/tender_home_screen.dart';
 
-import 'package:ProcureCentre/projects/screens/dashboard_screen.dart';
-import 'package:ProcureCentre/projects/screens/tender_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,7 +21,7 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProjectBody extends StatefulWidget {
-  String company;
+  final String company;
   ProjectBody(this.company);
   @override
   _ProjectBodyState createState() => _ProjectBodyState();
@@ -25,6 +29,7 @@ class ProjectBody extends StatefulWidget {
 
 class _ProjectBodyState extends State<ProjectBody> {
   CurrentProjectBloc _currentProjectBloc;
+  ClassificationBloc _classificationBloc;
   String get _company => widget.company;
 
   @override
@@ -59,7 +64,9 @@ class _ProjectBodyState extends State<ProjectBody> {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue),
+                                color: Theme.of(context).primaryColor,
+                                fontFamily: "Helvetica",
+                                ),
                           ),
                         ),
                         Padding(
@@ -89,13 +96,126 @@ class _ProjectBodyState extends State<ProjectBody> {
                                                   'Completed')
                                               ? 'Completed'
                                               : 'Status Not Found1',
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(color: Colors.white, fontFamily: 'Helvetica')),
                             ),
                           ),
                         )
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                        //mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+//                           Container(
+//                             child: _featureCard(
+//                                 'Spend Data Extraction',
+//                                 "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+//                                Theme.of(context).primaryColor,
+//                                Theme.of(context).primaryColor,
+//                                  ()  {
+//                               Navigator.of(context).push(
+//                                 MaterialPageRoute(
+//                                   builder: (context) {
+//                                     return ExtractionMain (
+//                                       project: state.currentProject,
+//                                       company: _company,
+                                     
+//                                     );
+//                                   },
+//                                 ),
+//                               );
+//                             }, context),
+//                           ),
+//                           Container(
+//                             child: _featureCard(
+//                                 'Spend Classification',
+//                                 "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+//                                  !state.currentProject.extraction["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
+//                                 !state.currentProject.extraction["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
+//                                 !state.currentProject.extraction["Completed"] ?  () => showDialog(context: context, child: _noDataDialog("Use"))  :
+// (){                              Navigator.of(context).push(
+//                                 MaterialPageRoute(
+//                                   builder: (context) {
+//                                     return TestClass(project: state.currentProject, company: _company,);
+//                                     //ClassificationMain(project: state.currentProject, company: _company);
+//                                                                       },
+//                                                                     ),
+//                                                                   );
+//                                                                 }, context),
+//                                                               ),
+                                                               Container(
+                                                                padding: EdgeInsets.all(10),
+                                                                child:
+                                                              _featureButton(
+                                                                () {
+                                                                  Navigator.of(context).push(
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) {
+                                                                        return ExtractionMain (
+                                      project: state.currentProject,
+                                      company: _company,
+                                     
+                                    );
+                                                                      },));}
+                                                                      ,context, 
+                                                                       "Extraction")),
+ Container(
+                                                                padding: EdgeInsets.all(10),
+                                                                child:
+                                                              _featureButton(
+                                                                () {
+                                                                  Navigator.of(context).push(
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) {
+                                                                        return  TestClass(project: state.currentProject, company: _company,);
+                                                                      },));}
+                                                                      ,context, 
+                                                                       "Classification")),
+
+                                                              Container(
+                                                                padding: EdgeInsets.all(10),
+                                                                child:
+                                                              _featureButton(
+                                                                () {
+                                                                  Navigator.of(context).push(
+                                                                    MaterialPageRoute(
+                                                                      builder: (context) {
+                                                                        return DashboardScreen(project: state.currentProject, company: _company,);
+                                                                      },));}
+                                                                      ,context, 
+                                                                       "Dashboard"))
+
+
+
+                                //                               Container(
+                                //                                 child: _featureCard(
+                                //                                     'Dashboard',
+                                //                                     "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
+                                //                                   !state.currentProject.classification["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
+                                // !state.currentProject.classification["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
+                                // !state.currentProject.classification["Completed"] ?  () => showDialog(context: context, child: _noDataDialog("Use")) :
+                                                                    
+                                //                                      () {
+                                //                                   Navigator.of(context).push(
+                                //                                     MaterialPageRoute(
+                                //                                       builder: (context) {
+                                //                                         return DashboardScreen(project: state.currentProject, company: _company,);
+                                //                                       },
+                                //                                     ),
+                                //                                   );
+                                //                                 }, context),
+                                //                               ),
+                                    
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                         
                   //Details Row
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -107,7 +227,7 @@ class _ProjectBodyState extends State<ProjectBody> {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               child: _infoCard(
-                                  Icon(Icons.create, color: Colors.blue),
+                                  Icon(Icons.create, color: Theme.of(context).primaryColor),
                                   DateFormat('dd-MMM-yyyy')
                                       .format(state.currentProject.created),
                                   //String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
@@ -120,7 +240,7 @@ class _ProjectBodyState extends State<ProjectBody> {
                             child: Container(
                               child: _infoCard(
                                   Icon(Icons.person_outline,
-                                      color: Colors.blue),
+                                      color: Theme.of(context).primaryColor),
                                   state.currentProject.user,
                                   "Owner",
                                   context),
@@ -139,7 +259,7 @@ class _ProjectBodyState extends State<ProjectBody> {
                           padding: const EdgeInsets.all(8.0),
                           child: Text("Project Description",
                               style:
-                                  TextStyle(fontSize: 20, color: Colors.blue)),
+                                  TextStyle(fontSize: 20, color: Theme.of(context).primaryColor, fontFamily: 'Helvetica',),)
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -153,186 +273,102 @@ class _ProjectBodyState extends State<ProjectBody> {
                   ),
 
                   //Lists
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * .3,
-                              height: MediaQuery.of(context).size.height * .4,
-                              child: _fileList(state.currentProject, context),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * .3,
-                              height: MediaQuery.of(context).size.height * .4,
-                              child: _progressReport(
-                                  state.currentProject, context),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  //Actions Row
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Wrap(
-                        alignment: WrapAlignment.center,
+                                                 
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: Container(
+                                                          child: Wrap(
+                                                            alignment: WrapAlignment.center,
+                                                            children: <Widget>[
+                                                              Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Container(
+                                                                  width: MediaQuery.of(context).size.width * .3,
+                                                                  height: MediaQuery.of(context).size.height * .4,
+                                                                  child: _fileList(state.currentProject, context),
+                                                                ),
+                                                              ),
+                                                              Padding(
+                                                                padding: const EdgeInsets.all(8.0),
+                                                                child: Container(
+                                                                  width: MediaQuery.of(context).size.width * .3,
+                                                                  height: MediaQuery.of(context).size.height * .4,
+                                                                  child: _progressReport(
+                                                                      state.currentProject, context),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      //Actions Row
+                                    
+                                                    ],
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                    border: Border(
+                                                  left: BorderSide(
+                                                    //                   <--- left side
+                                                    color: Colors.grey,
+                                                    width: 1.0,
+                                                  ),
+                                                )),
+                                                child: Center(
+                                                    child: Text(
+                                                  "Please Choose Project",
+                                                  style: TextStyle(
+                                                      color: Colors.grey,
+                                                      fontSize: 40,
+                                                      fontWeight: FontWeight.bold),
+                                                )),
+                                              );
+                                            }
+                                          },
+                                        );
+                                      }
+                                    }
+                                    
 
-                        //mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            child: _featureCard(
-                                'Spend Data Extraction',
-                                "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                                Colors.lightBlueAccent,
-                                Colors.lightBlue, ()  {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return ExtractionHomeScreen (
-                                      project: state.currentProject,
-                                      company: _company,
-                                     
-                                    );
-                                  },
-                                ),
-                              );
-                            }, context),
-                          ),
-                          Container(
-                            child: _featureCard(
-                                'Spend Classification',
-                                "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                                Colors.redAccent,
-                                Colors.red, () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return ClassificationScreen(project: state.currentProject, company: _company);
-                                  },
-                                ),
-                              );
-                            }, context),
-                          ),
-                          Container(
-                            child: _featureCard(
-                                'Dashboard',
-                                "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                                Colors.greenAccent,
-                                Colors.green, () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return DashboardScreen();
-                                  },
-                                ),
-                              );
-                            }, context),
-                          ),
-                          Container(
-                            child: _featureCard(
-                                'Tender Creation',
-                                "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                                Colors.amberAccent,
-                                Colors.amber, () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return TenderScreen();
-                                  },
-                                ),
-                              );
-                            }, context),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        } else {
-          return Container(
-            decoration: BoxDecoration(
-                border: Border(
-              left: BorderSide(
-                //                   <--- left side
-                color: Colors.grey,
-                width: 1.0,
-              ),
-            )),
-            child: Center(
-                child: Text(
-              "Please Choose Project",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold),
-            )),
-          );
-        }
-      },
-    );
-  }
-}
+
+
 
 _featureCard(
     title, description, Color color, Color _buttonColor, _onPressed, context) {
-  return Card(
-    color: color,
-    elevation: 5,
-    child: Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Text(
+  return GestureDetector(
+    onTap: _onPressed,
+
+      child: Card(
+      color: _buttonColor,
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width * .2,
+                    height: MediaQuery.of(context).size.height * .1,
+
+          child: Center(
+            child: Text(
                 title,
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
-            ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              width: MediaQuery.of(context).size.width * .13,
-              child: Text(description,
-                  overflow: TextOverflow.clip,
-                  maxLines: 5,
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: RaisedButton(
-                  child: Icon(
-                    FontAwesomeIcons.solidArrowAltCircleRight,
-                    color: Colors.white,
-                  ),
-                  //Text(buttonText, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                  color: _buttonColor,
-                  onPressed: _onPressed),
-            ),
-          )
-        ],
+        ),
       ),
     ),
+  );
+}
+
+_featureButton(
+  _onPressed, context,title
+){
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: RaisedButton(hoverColor: Theme.of(context).primaryColor,onPressed: _onPressed, child: Text(title, style: TextStyle(fontFamily: 'Helvetica', color: AppColors.primaryText),)),
   );
 }
 
@@ -381,6 +417,11 @@ _descriptionCard(String text, context) {
           style: TextStyle(color: Colors.grey),
         ))),
   );
+}
+
+_noDataDialog(String text){
+  return AlertDialog(title: Text("No Data!"),
+  content: Text("There is no data to $text. Please Extract Some Data First"),);
 }
 
 _fileList(Project project, context) {
@@ -451,12 +492,12 @@ _progressReport(Project project, context) {
                         ? Icon(Icons.check_box, color: Colors.green)
                         : Icon(Icons.close, color: Colors.red),
                   ),
-                  ListTile(
-                    title: Text('Spend Classification'),
-                    trailing: project.classification['Completed']
-                        ? Icon(Icons.check_box, color: Colors.green)
-                        : Icon(Icons.close, color: Colors.red),
-                  ),
+                  // ListTile(
+                  //   title: Text('Spend Classification'),
+                  //   trailing: project.classification['Completed']
+                  //       ? Icon(Icons.check_box, color: Colors.green)
+                  //       : Icon(Icons.close, color: Colors.red),
+                  // ),
                   ListTile(
                     title: Text('Dashboard Generation'),
                     trailing: project.dashboard['Completed']

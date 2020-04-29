@@ -63,6 +63,7 @@ class _RegisterFormState extends State<RegisterForm> {
           BlocProvider.of<AuthenticationBloc>(context).add(LoggedIn());
           Navigator.of(context).pop();
           Navigator.of(context).pop();
+          Navigator.of(context).pop();
           //  Navigator.of(context).push(
           // MaterialPageRoute(builder: (context) {
           //   return HomeScreen(name: _displayNameController.text,);
@@ -92,10 +93,38 @@ class _RegisterFormState extends State<RegisterForm> {
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/ProcureCentre.png', height: 200),
-                  ),
+                  SizedBox(height: 50,),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 40),
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(Icons.backup,
+                                      size: 50,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          color: Theme.of(context).primaryColor),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: "Procure",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: "Centre",
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic))
+                                      ]),
+                                ),
+                              ],
+                            ),
+                          )),
                        TextFormField(
                     controller: _displayNameController,
                     decoration: InputDecoration(

@@ -4,6 +4,8 @@ abstract class ClassificationEvent extends Equatable {
   const ClassificationEvent();
 }
 
+
+
 class CheckingStatus extends ClassificationEvent {
   final Project project;
   final String company;
@@ -17,41 +19,73 @@ class CheckingStatus extends ClassificationEvent {
   String toString() => 'Checking Status... { Project :${project.name} }';
 }
 
-class ClassificationBegin extends ClassificationEvent {
+
+
+class DownloadFilePressed extends ClassificationEvent {
   final Project project;
   final String company;
 
-  const ClassificationBegin({@required this.project, @required this.company});
-
-  @override
-  List<Object> get props => [project, company];
-
-  @override
-  String toString() => 'Classification Has Begun { Project :${project.name}, }';
-}
-
-class ClassificationComplete extends ClassificationEvent {
-  final Project project;
-  final List<DataPoint> data;
-
-  const ClassificationComplete({@required this.project, @required this.data});
+  const DownloadFilePressed({@required this.project, @required this.company});
 
   @override
   List<Object> get props => [project];
 
   @override
-  String toString() => 'Classification Has Begun { Project :${project.name},}';
+  String toString() => 'Download File Pressed... { Project :${project.name} }';
 }
-
-class NotClassified extends ClassificationEvent {
+class UploadFilePressed extends ClassificationEvent {
   final Project project;
+  final String company;
+  final String fileName;
+  final List<int> selectedFile;
 
 
-  const NotClassified({@required this.project});
+  const UploadFilePressed({@required this.project, @required this.company, @required this.fileName, @required this.selectedFile});
 
   @override
   List<Object> get props => [project];
 
   @override
-  String toString() => 'Classification Not Completed { Project :${project.name},}';
+  String toString() => 'Upload File Pressed... { Project :$fileName }';
+}
+
+class ClassifyPressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+  final String modelName;
+  final String categories;
+
+  const ClassifyPressed( {@required this.project, @required this.company, @required this.modelName, @required this.categories,});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Classify Pressed... { Project :$modelName }';
+}
+
+class DashboardPressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+  final String modelName;
+
+  const DashboardPressed({@required this.project, @required this.company, @required this.modelName});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Dashboard Pressed... { Project :${project.name} }';
+}
+class NewDataPressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+
+  const NewDataPressed({@required this.project, @required this.company});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'New Data Pressed... { Project :${project.name} }';
 }

@@ -4,6 +4,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/date_symbols.dart';
 
 import '../../project_repository.dart';
 
@@ -14,7 +15,7 @@ Future<String> loginToApi() async {
 
   print('logging in');
 
-  var data = '{"username": "XXXXX", "password": "XXXXX"}';
+  var data = '{"username": "pefarrell@crh.com", "password": "Peterf4282"}';
 
   var res = await http.post('https://api.elis.rossum.ai/v1/auth/login',
       headers: loginHeaders, body: data);
@@ -24,21 +25,29 @@ Future<String> loginToApi() async {
   return key;
 }
 
-Future<String> sendFile(file, filename) async {
+Future<String> sendFile(List<String> file, List<String> filenames) async {
   String key = await loginToApi();
+
+for(int i =0; i < file.length; i++){
 
   var url = Uri.parse("https://api.elis.rossum.ai/v1/queues/20383/upload");
   var request = new http.MultipartRequest("POST", url);
-  Uint8List _bytesData =
-      Base64Decoder().convert(file.toString().split(",").last);
+
+  
+    Uint8List _bytesData =
+      Base64Decoder().convert(file[i].toString().split(",").last);
   List<int> _selectedFile = _bytesData;
   request.headers.addAll({'Authorization': 'token $key'});
+  print(filenames);
+  print('....');
 
   request.files.add(http.MultipartFile.fromBytes('content', _selectedFile,
       //contentType: new MediaType('application', 'octet-stream'),
-      filename: filename));
+      filename: filenames[i].toString()));
+  print('....//');
 
   request.send().then((response) {
+    print(response.statusCode);
     if (response.statusCode == 200)
       return ("Succesful Upload");
     else {
@@ -46,22 +55,28 @@ Future<String> sendFile(file, filename) async {
     }
   });
 }
+  }
+  
 
 Future<List<DataPoint>> retrieveData(
     DateTime startTime, DateTime endTime, Project project) async {
   String key = await loginToApi();
-
+print('successfully logged in $key');
+print(startTime);
   var res = await http.get(
-      'https://api.elis.rossum.ai/v1/queues/20383/export?format=json&status=exported&columns=meta_file_name,invoice_id,date_issue,sender_name,amount_total&arrived_at_after=$startTime&arrived_at_before=$endTime',
+      'https://api.elis.rossum.ai/v1/queues/20383/export?format=json&status=exported&columns=meta_file_name,invoice_id,date_issue,sender_name,amount_total&arrived_at_after=$startTime',
       headers: {'Authorization': 'token $key'});
+
+  print(".....");
+  print(res.statusCode);
   if (res.statusCode != 200)
     throw Exception('get error: statusCode= ${res.statusCode}');
   var j = json.decode(res.body);
   //Set Exported To Number Of Times In The Loop
   int noInvoices = j['pagination']['total'];
     List<DataPoint> itemList = [];
-
-  for (int k = 0; k < noInvoices; k ++){
+  print(noInvoices);
+  for (int k = 0; k < 50; k ++){
 
   var invoiceInfo = j['results'][k]['content'][0];
   var amountsSection = j['results'][k]['content'][2];
@@ -77,7 +92,8 @@ Future<List<DataPoint>> retrieveData(
 
   //iterateJson(json.encode(lineItemData));
 
-  var items = j['results'][0]['content'][5]['children'][0]['children'] as List;
+  var items = j['results'][k]['content'][5]['children'][0]['children'] as List;
+  print(items.length);
 
   for (var i = 0; i < items.length; i++) {
    
@@ -104,6 +120,7 @@ Future<List<DataPoint>> retrieveData(
         }
         else if(a.toString() == 'item_description') {
           description = b.toString();
+          print(description);
         }
         else if(a.toString() == 'item_quantity'){
           qty = b.toString();
@@ -144,7 +161,7 @@ Future<List<DataPoint>> retrieveData(
   }
     
 
-  print(itemList[0]);
+  print(itemList);
   }
 
     

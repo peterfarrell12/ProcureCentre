@@ -212,9 +212,9 @@ class _AddEditScreenState extends State<AddEditScreen> {
              status: 'Initial',
              teamMembers: teamMembers,
              //data : data,
-            extraction: {'Completed': false},
-            classification: {'Completed': false},
-            dashboard: {'Completed': false},
+            extraction: {'Completed': false, 'Stage' : 1},
+            classification: {'Completed': false, 'Models' : [], 'Stage' : 1},
+            dashboard: {'Completed': false,},
             tenderCreation: {'Completed': false},
              //fileNames: ['test']
           ),

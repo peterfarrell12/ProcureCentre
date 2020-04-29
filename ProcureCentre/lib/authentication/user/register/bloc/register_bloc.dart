@@ -84,6 +84,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         displayName: displayName
       );
        _userRepository.createUser(displayName, email, company);
+       await _userRepository.signInWithCredentials(email, password);
       yield RegisterState.success();
     } catch (_) {
       yield RegisterState.failure();

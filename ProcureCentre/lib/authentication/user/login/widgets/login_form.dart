@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../user_repository.dart';
 import '../login.dart';
+import 'dart:html' as html;
+
 
 
 class LoginForm extends StatefulWidget {
@@ -18,6 +20,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final CompanyRepository _companyRepository = CompanyRepository();
@@ -46,6 +49,8 @@ class _LoginFormState extends State<LoginForm> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.isFailure) {
+                      //html.window.location.reload();
+
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -56,7 +61,11 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 backgroundColor: Colors.red,
               ),
+              
             );
+
+          BlocProvider.of<LoginBloc>(context).add(InitialState());
+
         }
         if (state.isSubmitting) {
           Scaffold.of(context)
@@ -81,55 +90,88 @@ class _LoginFormState extends State<LoginForm> {
         builder: (context, state) {
           return Padding(
             padding: EdgeInsets.all(20.0),
-            child: Form(
-              child: ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('images/ProcureCentreLogo.png', height: 200),
-                  ),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      labelText: 'Email',
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isEmailValid ? 'Invalid Email' : null;
-                    },
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: 'Password',
-                    ),
-                    obscureText: true,
-                    autovalidate: true,
-                    autocorrect: false,
-                    validator: (_) {
-                      return !state.isPasswordValid ? 'Invalid Password' : null;
-                    },
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        LoginButton(
-                          onPressed: isLoginButtonEnabled(state)
-                              ? _onFormSubmitted
-                              : null,
+            child: Center(
+              child: Form(
+                child: Center(
+                  child: ListView(
+                    children: <Widget>[
+                      SizedBox(height: 50,),
+                          Padding(
+                              padding: EdgeInsets.symmetric(vertical: 40),
+                              child: Container(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: Icon(Icons.backup,
+                                          size: 50,
+                                          color: Theme.of(context).primaryColor),
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                          style: TextStyle(
+                                              fontSize: 50,
+                                              color: Theme.of(context).primaryColor),
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                                text: "Procure",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold)),
+                                            TextSpan(
+                                                text: "Centre",
+                                                style: TextStyle(
+                                                    fontStyle: FontStyle.italic))
+                                          ]),
+                                    ),
+                                  ],
+                                ),
+                              )),
+                      //IconButton(onPressed: () => html.window.location.reload(), icon: Icon(Icons.refresh),),
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.email),
+                          labelText: 'Email',
                         ),
-                        GoogleLoginButton(),
-                        CreateAccountButton(companyRepository: _companyRepository, userRepository: _userRepository,),
-                      ],
-                    ),
+                        keyboardType: TextInputType.emailAddress,
+                        autovalidate: true,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isEmailValid ? 'Invalid Email' : null;
+                        },
+                      ),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(
+                          icon: Icon(Icons.lock),
+                          labelText: 'Password',
+                        ),
+                        obscureText: true,
+                        autovalidate: true,
+                        autocorrect: false,
+                        validator: (_) {
+                          return !state.isPasswordValid ? 'Invalid Password' : null;
+                        },
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            LoginButton(
+                              onPressed: isLoginButtonEnabled(state)
+                                  ? _onFormSubmitted
+                                  : null,
+                            ),
+                            //GoogleLoginButton(),
+                            CreateAccountButton(companyRepository: _companyRepository, userRepository: _userRepository,),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           );

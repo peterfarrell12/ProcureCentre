@@ -17,6 +17,7 @@ class DataPoint {
   final String price;
   final String base;
   final String total;
+  final String category;
 
   DataPoint(
       {String id,
@@ -32,7 +33,8 @@ class DataPoint {
       String uom,
       String price,
       String base,
-      String total})
+      String total,
+      String category})
       : this.id = id,
         this.invoice = invoice,
         this.order = order,
@@ -46,7 +48,8 @@ class DataPoint {
         this.uom = uom,
         this.price = price,
         this.base = base,
-        this.total = total;
+        this.total = total,
+        this.category = category;
 
   DataPoint copyWith({
     String invoice,
@@ -62,6 +65,8 @@ class DataPoint {
     String uom,
     String price,
     String base,
+    String total,
+    String category
   }) {
     return DataPoint(
         invoice: invoice ?? this.invoice,
@@ -77,7 +82,8 @@ class DataPoint {
         uom: uom ?? this.uom,
         price: price ?? this.price,
         base: base ?? this.base,
-        total: total ?? this.total);
+        total: total ?? this.total,
+        category: category ?? this.category);
   }
 
   @override
@@ -94,7 +100,9 @@ class DataPoint {
       qty.hashCode ^
       uom.hashCode ^
       price.hashCode ^
-      base.hashCode;
+      base.hashCode ^
+      total.hashCode ^
+      category.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -114,7 +122,8 @@ class DataPoint {
           qty == other.qty &&
           price == other.price &&
           base == other.base &&
-          total == other.total;
+          total == other.total &&
+          category == other.category;
 
   @override
   String toString() {
@@ -123,11 +132,12 @@ class DataPoint {
 
   DataEntity toEntity() {
     return DataEntity(id, invoice, order, date, currency, supplier, customer,
-        code, description, qty, uom, price, base, total);
+        code, description, qty, uom, price, base, total, category);
   }
 
   static DataPoint fromJson(Map<String, Object> json) {
     return DataPoint(
+      id: json['id'] as String,
       invoice: json["Invoice ID"],
       order: json["Order ID"],
       date: json['Date'],
@@ -141,6 +151,7 @@ class DataPoint {
       price: json['item_amount_base'] as String,
       base: ['item_total_base'] as String,
       total: ['item_amount_total'] as String,
+      category: ['category'] as String
     );
   }
 
@@ -159,7 +170,8 @@ class DataPoint {
         uom: entity.uom,
         price: entity.price,
         base: entity.base,
-        total: entity.total
+        total: entity.total,
+        category: entity.category
         //data: entity.data,
 
         );

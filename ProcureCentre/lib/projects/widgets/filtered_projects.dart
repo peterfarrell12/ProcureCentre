@@ -27,7 +27,7 @@ class _FilteredProjectState extends State<FilteredProject> {
     return BlocBuilder<FilteredProjectsBloc, FilteredProjectState>(
       builder: (context, state) {
         if (state is FilteredProjectLoading) {
-          return LoadingIndicator();
+          return Center(child: Container(child: Text("Add Some Projects!")));
         } else if (state is FilteredProjectLoaded) {
           final projects = state.filteredProject;
           return ListView.builder(
@@ -118,8 +118,10 @@ class _FilteredProjectState extends State<FilteredProject> {
             },
           );
         } else {
-          return Container();
-        }
+          return Center(
+            child: Container(child: Text("No Projects Yet!"),
+            )
+          );}
       },
     );
   }

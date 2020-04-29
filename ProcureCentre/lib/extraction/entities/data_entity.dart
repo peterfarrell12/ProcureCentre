@@ -17,6 +17,7 @@ class DataEntity extends Equatable {
   final String price;
   final String base;
   final String total;
+  final String category;
 
   const DataEntity(
       this.id,
@@ -32,7 +33,8 @@ class DataEntity extends Equatable {
       this.uom,
       this.price,
       this.base,
-      this.total);
+      this.total,
+      this.category);
 
   Map<String, dynamic> toJson() => {
         'Invoice ID': invoice,
@@ -47,11 +49,13 @@ class DataEntity extends Equatable {
         'item_uom': uom,
         'item_amount_base': price,
         'item_total_base': base,
-        'item_amount_total': total
+        'item_amount_total': total,
+        'category' : category
       };
 
   @override
   List<Object> get props => [
+    id,
         invoice,
         order,
         date,
@@ -64,7 +68,8 @@ class DataEntity extends Equatable {
         uom,
         price,
         base,
-        total
+        total,
+        category
       ];
 
   @override
@@ -88,6 +93,7 @@ class DataEntity extends Equatable {
       json['item_amount_base'] as String,
       json['item_total_base'] as String,
       json['item_amount_total'] as String,
+      json['category'] as String
     );
   }
 
@@ -106,7 +112,8 @@ class DataEntity extends Equatable {
         snap.data()['item_uom'],
         snap.data()['item_amount_base'],
         snap.data()['item_total_base'],
-        snap.data()['item_amount_total']);
+        snap.data()['item_amount_total'],
+        snap.data()['category']);
   }
 
   Map<String, Object> toDocument() {
@@ -122,7 +129,8 @@ class DataEntity extends Equatable {
       "item_uom": uom,
       "item_amount_base": price,
       'item_total_base': base,
-      'item_amount_total': total
+      'item_amount_total': total,
+      'category' : category
     };
   }
 }

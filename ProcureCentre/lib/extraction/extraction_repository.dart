@@ -17,5 +17,9 @@ abstract class ExtractionRepository {
   Future<void> addData(Project project, String company, List<DataPoint> data);
 
   Future<List<DataPoint>> getData(Project project, String company);
+   Future<void> updateDataPoint(DataPoint dp, Project project, String company);
+
+     Future<void> deleteProject(Project project, String company, List<String> id);
+
 
 }

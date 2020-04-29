@@ -1,4 +1,5 @@
 import 'package:ProcureCentre/authentication/models/user.dart';
+import 'package:ProcureCentre/home/widgets/colours.dart';
 import 'package:ProcureCentre/projects/bloc/blocs.dart';
 import 'package:ProcureCentre/projects/bloc/current_project/bloc.dart';
 import 'package:ProcureCentre/projects/screens/add_screen.dart';
@@ -38,9 +39,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
             BlocProvider<CurrentProjectBloc>(
               create: (context) => CurrentProjectBloc(),
             ),
-            BlocProvider<TabBloc>(
-              create: (context) => TabBloc(),
-            ),
+
             BlocProvider<FilteredProjectsBloc>(
                 create: (context) => FilteredProjectsBloc(
                       user: _user,
@@ -55,9 +54,45 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                   width: MediaQuery.of(context).size.width * .93,
                   height: double.infinity,
                   child: Scaffold(
-                    appBar: AppBar(
+                    // appBar: AppBar(
+                    //   elevation: 0,
+                    //   title: Text('${_user.company} Projects'),
+                    //   actions: [
+                    //     IconButton(
+                    //         icon: Icon(Icons.refresh),
+                    //         iconSize: 20,
+                    //         color: Colors.white,
+                    //         onPressed: () {
+                    //           BlocProvider.of<ProjectsBloc>(context)
+                    //               .add(LoadProjects(_user.company));
+                    //         }),
+                    //     FilterButton(visible: true, user: _user),
+                    //     IconButton(
+                    //       icon: Icon(Icons.more_vert),
+                    //       iconSize: 20,
+                    //       color: Colors.white,
+                    //       onPressed: () {},
+                    //     ),
+                    //   ],
+                    // ),
+                    body: 
+                        Row(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width * .25,
+                          height: double.infinity,
+                          child: Scaffold(
+                            appBar: AppBar(
                       elevation: 0,
-                      title: Text('${_user.company} Projects'),
+                      title: Text(
+                        "Projects",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: "Helvetica",
+                         
+                          fontSize: 20,
+                        ),
+                      ),
                       actions: [
                         IconButton(
                             icon: Icon(Icons.refresh),
@@ -76,15 +111,10 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         ),
                       ],
                     ),
-                    body: 
-                   
-                        Row(
-                      children: <Widget>[
-                        Container(
-                          width: MediaQuery.of(context).size.width * .25,
-                          height: double.infinity,
-                          child: FilteredProject(
-                            user: _user,
+
+                                                      body: FilteredProject(
+                              user: _user,
+                            ),
                           ),
                         ),
                         Container(
@@ -109,6 +139,7 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                         //
                       },
                       child: Icon(Icons.add),
+                      backgroundColor: Theme.of(context).primaryColor,
                       tooltip: "Add A New Project",
                     ),
                   ),

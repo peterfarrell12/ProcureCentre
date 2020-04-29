@@ -94,7 +94,7 @@ class Project {
   }
 
   ProjectEntity toEntity() {
-    return ProjectEntity(user,id, name, complete, description, created, status, teamMembers,  fileNames, classification, extraction, dashboard, tenderCreation);
+    return ProjectEntity(user,id, name, complete, description, created, status, teamMembers,  fileNames, extraction,classification,  dashboard, tenderCreation);
   }
 
   static Project fromEntity(ProjectEntity entity) {

@@ -1,9 +1,10 @@
-import 'package:ProcureCentre/home/bloc/home_bloc.dart';
+import 'package:ProcureCentre/home/bloc/home_bloc/home_bloc.dart';
 import 'package:ProcureCentre/simple_bloc_delegate.dart';
 import 'package:ProcureCentre/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'authentication/user/authentication_bloc/bloc.dart';
 import 'authentication/user/login/login.dart';
@@ -37,6 +38,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData (
+        primaryColor: Colors.green,
+        textTheme: GoogleFonts.latoTextTheme(
+      Theme.of(context).textTheme,)),
       home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
         builder: (context, state) {
           if (state is Unauthenticated) {

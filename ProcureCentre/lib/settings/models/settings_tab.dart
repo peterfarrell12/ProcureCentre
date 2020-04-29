@@ -1,0 +1,1 @@
+enum SettingsTab { todos, stats }

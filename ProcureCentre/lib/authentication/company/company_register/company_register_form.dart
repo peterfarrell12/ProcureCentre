@@ -1,3 +1,4 @@
+import 'package:ProcureCentre/authentication/company/company_login/company_login_screen.dart';
 import 'package:ProcureCentre/authentication/user/register/screens/register_screen.dart';
 import 'package:ProcureCentre/authentication/user/user_repository.dart';
 import 'package:flutter/material.dart';
@@ -97,10 +98,38 @@ class _CompanyRegisterFormState extends State<CompanyRegisterForm> {
             child: Form(
               child: ListView(
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.symmetric(vertical: 20),
-                    child: Image.asset('assets/flutter_logo.png', height: 200),
-                  ),
+                  SizedBox(height: 50,),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 40),
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: Icon(Icons.backup,
+                                      size: 50,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                RichText(
+                                  text: TextSpan(
+                                      style: TextStyle(
+                                          fontSize: 50,
+                                          color: Theme.of(context).primaryColor),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                            text: "Procure",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                        TextSpan(
+                                            text: "Centre",
+                                            style: TextStyle(
+                                                fontStyle: FontStyle.italic))
+                                      ]),
+                                ),
+                              ],
+                            ),
+                          )),
                        TextFormField(
                     controller: _nameController,
                     decoration: InputDecoration(
@@ -140,6 +169,13 @@ class _CompanyRegisterFormState extends State<CompanyRegisterForm> {
                     validator: (_) {
                       return !state.isPINValid ? 'Invalid PIN' : null;
                     },
+                  ),
+                  FlatButton(
+                    padding: EdgeInsets.all(8.0),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    } ,
+                    child: Text("Back To Login"),
                   ),
                   CompanyRegisterButton(
                     onPressed: isCompanyRegisterButtonEnabled(state)

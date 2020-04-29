@@ -1,4 +1,3 @@
-
 import 'dart:html';
 
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
@@ -8,18 +7,6 @@ import 'package:meta/meta.dart';
 
 abstract class ExtractionEvent extends Equatable {
   const ExtractionEvent();
-}
-
-class AddDataPressed extends ExtractionEvent {
-  final Project project;
-
-  const AddDataPressed({@required this.project});
-
-  @override
-  List<Object> get props => [project];
-
-  @override
-  String toString() => 'Add Data Pressed { Project :${project.name} }';
 }
 
 class CheckingStatus extends ExtractionEvent {
@@ -35,40 +22,32 @@ class CheckingStatus extends ExtractionEvent {
   String toString() => 'Checking Status... { Project :${project.name} }';
 }
 
-class CheckingFiles extends ExtractionEvent {
+class ExtractDataPressed extends ExtractionEvent {
   final Project project;
-    final String company;
-
-
-  const CheckingFiles({@required this.project, @required this.company});
-
-  @override
-  List<Object> get props => [project];
-
-  @override
-  String toString() => 'Checking Status... { Project :${project.name} }';
-}
-
-class RetrieveFiles extends ExtractionEvent {
-  final Project project;
+  final String company;
   final DateTime startTime;
   final DateTime endTime;
 
-  const RetrieveFiles({@required this.project, @required this.startTime, @required this.endTime});
+  const ExtractDataPressed(
+      {@required this.project,
+      @required this.company,
+      @required this.startTime,
+      @required this.endTime});
 
   @override
-  List<Object> get props => [project, startTime, endTime];
+  List<Object> get props => [project, company, startTime, endTime];
 
   @override
   String toString() => 'Retrieving Data... { Project :${project.name} }';
 }
 
-class FilesChecked extends ExtractionEvent {
+class ClassificationPressed extends ExtractionEvent {
   final Project project;
   final String company;
   final List<DataPoint> data;
 
-  const FilesChecked({@required this.project, @required this.company, @required this.data});
+  const ClassificationPressed(
+      {@required this.project, @required this.company, @required this.data});
 
   @override
   List<Object> get props => [project, company, data];
@@ -77,17 +56,19 @@ class FilesChecked extends ExtractionEvent {
   String toString() => 'Upload To FB... { Project :${project.name} }';
 }
 
-class ExtractBegin extends ExtractionEvent {
+class UploadFilesPressed extends ExtractionEvent {
   final Project project;
   final String company;
-   //final String fileName;
-   //final String fileURL;
-   final Object rResult;
-   final List<File> file;
 
-  const ExtractBegin({@required this.project, @required this.company,  
-  //@required this.fileURL, 
-  @required this.rResult,@required this.file});
+  final Object rResult;
+  final List<File> file;
+
+  const UploadFilesPressed(
+      {@required this.project,
+      @required this.company,
+      //@required this.fileURL,
+      @required this.rResult,
+      @required this.file});
 
   @override
   List<Object> get props => [project, company, rResult, file];
@@ -96,11 +77,13 @@ class ExtractBegin extends ExtractionEvent {
   String toString() => 'Extraction Has Begun { Project :${project.name}, }';
 }
 
-class ExtractComplete extends ExtractionEvent {
+class DeleteDataPressed extends ExtractionEvent {
   final Project project;
-  final List<DataPoint> data;
+  final String company;
+  final List<String> ids;
 
-  const ExtractComplete({@required this.project, @required this.data});
+  const DeleteDataPressed(
+      {@required this.project, @required this.company, @required this.ids});
 
   @override
   List<Object> get props => [project];
@@ -109,44 +92,29 @@ class ExtractComplete extends ExtractionEvent {
   String toString() => 'Extraction Has Begun { Project :${project.name},}';
 }
 
-class NotExtracted extends ExtractionEvent {
+class NewExtractPressed extends ExtractionEvent {
   final Project project;
+  final String company;
+  final List<DataPoint> currentData;
 
-
-  const NotExtracted({@required this.project});
+  const NewExtractPressed({@required this.project, @required this.company, @required this.currentData});
 
   @override
   List<Object> get props => [project];
 
   @override
-  String toString() => 'Extraction Not Completed { Project :${project.name},}';
+  String toString() => 'New Extract Pressed... { Project :${project.name} }';
 }
 
-class DeleteData extends ExtractionEvent {
-
+class GetDataEvent extends ExtractionEvent {
   final Project project;
+  final String company;
 
-  const DeleteData({@required this.project});
+  const GetDataEvent({@required this.project, @required this.company});
 
   @override
   List<Object> get props => [project];
 
   @override
-  String toString() => 'Extraction Has Begun { Project :${project.name},}';
+  String toString() => 'Get Data Event... { Project :${project.name} }';
 }
-
-
-// class FileUploaded extends ExtractionEvent {
-//   final Project project;
-//   final File file;
-//   final String company;
-  
-
-//   const FileUploaded({@required this.project,@required this.company, @required this.file});
-
-//   @override
-//   List<Object> get props => [project];
-
-//   @override
-//   String toString() => 'Upload File Pressed { Project :${project.name} }';
-//}

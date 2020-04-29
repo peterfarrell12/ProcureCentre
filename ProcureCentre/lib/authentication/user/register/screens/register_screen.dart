@@ -25,20 +25,28 @@ class RegisterScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: MediaQuery.of(context).size.width * .5,
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 child: Center(
-                  child: RichText(
-                    text: TextSpan(
-                        style: TextStyle(fontSize: 50, color: Colors.white),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: "Procure",
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          TextSpan(
-                              text: "Centre",
-                              style: TextStyle(fontStyle: FontStyle.italic))
-                        ]),
-                  ),
+                  child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Icon(Icons.backup, size: 50, color: Colors.white),
+                            ),
+
+              RichText(
+                text: TextSpan(
+                  style: TextStyle(fontSize: 50, color: Colors.white),
+                  children: <TextSpan> [
+                    TextSpan(text: "Procure", style: TextStyle(fontWeight: FontWeight.bold)),
+                    TextSpan(text: "Centre", style: TextStyle(fontStyle: FontStyle.italic))
+                    
+                  ]
+                ),
+              ),
+            ],
+          ),
                 ),
               ),
               Container(

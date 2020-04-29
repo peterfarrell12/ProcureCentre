@@ -43,6 +43,7 @@ class FirebaseExtractionRepository implements ExtractionRepository{
   }
 
   Future<void> addData(Project project, String company, List<DataPoint> data) async {
+    print("Hello");
     for(var i = 0; i < data.length; i++)  {
       await store.collection("companies")
         .doc(company)
@@ -51,6 +52,8 @@ class FirebaseExtractionRepository implements ExtractionRepository{
         .collection('data')
         .add(data[i].toEntity().toDocument());
     }
+
+    
 
     return '${data.length} number of items uploaded';        
   }
@@ -65,7 +68,35 @@ class FirebaseExtractionRepository implements ExtractionRepository{
         .collection('data')
         .get();
 
-        return qShot.docs.map((e) => DataPoint.fromEntity(DataEntity.fromJson(e.data()))).toList();
+        return qShot.docs.map((e) => DataPoint.fromEntity(DataEntity.fromSnapshot(e))).toList();
    
+  }
+
+   @override
+  Future<void> updateDataPoint(DataPoint dp, Project project, String company) {
+    print(dp.id);
+    return store
+        .collection('companies')
+        .doc(company)
+        .collection("projects")
+        .doc(project.id)
+        .collection('data')
+        .doc(dp.id)
+        .set(dp.toEntity().toDocument());
+  }
+
+    @override
+  Future<void> deleteProject(Project project, String company, List<String> id) async {
+     for(int i = 0; i < id.length; i ++){
+       store
+        .collection("companies")
+        .doc(company)
+        .collection('projects')
+        .doc(project.id)
+        .collection("data")
+        .doc(id[i])
+        .delete();
+    }
+    
   }
 }

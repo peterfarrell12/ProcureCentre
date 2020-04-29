@@ -12,6 +12,8 @@ abstract class FilteredProjectState extends Equatable {
 
 class FilteredProjectLoading extends FilteredProjectState {}
 
+class ProjectsEmpty extends FilteredProjectState {}
+
 class FilteredProjectLoaded extends FilteredProjectState {
   final List<Project> filteredProject;
   final VisibilityFilter activeFilter;
