@@ -54,8 +54,9 @@ class ClassifyPressed extends ClassificationEvent {
   final String company;
   final String modelName;
   final String categories;
+  final bool selectAll;
 
-  const ClassifyPressed( {@required this.project, @required this.company, @required this.modelName, @required this.categories,});
+  const ClassifyPressed( {@required this.project, @required this.company, @required this.modelName, @required this.categories,@required this.selectAll});
 
   @override
   List<Object> get props => [project];
@@ -88,4 +89,54 @@ class NewDataPressed extends ClassificationEvent {
 
   @override
   String toString() => 'New Data Pressed... { Project :${project.name} }';
+}
+class Stage1Pressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+
+  const Stage1Pressed({@required this.project, @required this.company,});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 1 Pressed... { Project :${project.name} }';
+}
+
+class Stage2Pressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+
+  const Stage2Pressed({@required this.project, @required this.company, });
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 2 Pressed... { Project :${project.name} }';
+}
+
+class Stage3Pressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+
+  const Stage3Pressed({@required this.project, @required this.company,});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 3 Pressed... { Project :${project.name} }';
+}
+class Stage4Pressed extends ClassificationEvent {
+  final Project project;
+  final String company;
+
+  const Stage4Pressed({@required this.project, @required this.company,});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 4 Pressed... { Project :${project.name} }';
 }

@@ -41,6 +41,12 @@ class ExtractionBloc extends Bloc<ExtractionEvent, ExtractionState> {
     } else if (event is NewExtractPressed) {
       yield* _mapNewExtractPressedToState(event);
     }
+    else if (event is Stage2Pressed) {
+      yield* _mapStage2PressedToState(event);
+    }
+        else if (event is Stage3Pressed) {
+      yield* _mapStage3PressedToState(event);
+    }
   }
 
   Stream<ExtractionState> _mapCheckingStatusToState(
@@ -54,12 +60,15 @@ class ExtractionBloc extends Bloc<ExtractionEvent, ExtractionState> {
       UploadFilesPressed event) async* {
     yield CheckingStatusState(event.project, event.company);
 
-    try {
+ 
       List<String> names = [];
       for (int i = 0; i < event.file.length; i++) {
         names.add(event.file[i].name);
       }
-      await sendFile(event.rResult, names);
+      bool upload = await sendFile(event.rResult, names);
+      print("Upload $upload");
+
+      if (upload) {
       for (int x = 0; x < event.file.length; x++) {
         String url = await _extractionRepository.addFileToFirebase(
             event.project, event.company, event.file[x]);
@@ -70,13 +79,18 @@ class ExtractionBloc extends Bloc<ExtractionEvent, ExtractionState> {
       await _projectRepository.updateProject(updateProject, event.company);
       print(updateProject.id);
       yield StatusCheckedState(updateProject, event.company, 2);
-    } catch (e) {
-      print('Error Caught');
-    }
+      }
+      else{
+        print('Caught');
+              yield StatusCheckedState(event.project, event.company, 1);
+
+      
+    } 
   }
 
   Stream<ExtractionState> _mapExtractDataPressedToState(
       ExtractDataPressed event) async* {
+          yield CheckingStatusState(event.project, event.company);
     List<DataPoint> newItems =
         await retrieveData(event.startTime, event.endTime, event.project);
     print(newItems);
@@ -86,7 +100,7 @@ class ExtractionBloc extends Bloc<ExtractionEvent, ExtractionState> {
     await _projectRepository.updateProject(updateProject, event.company);
     print(newItems);
     //print(updateProject.id);
-    //yield StatusCheckedState(updateProject, event.company, 3);
+    yield StatusCheckedState(updateProject, event.company, 3);
   }
 
   Stream<ExtractionState> _mapDeleteDataPressedToState(
@@ -102,6 +116,31 @@ class ExtractionBloc extends Bloc<ExtractionEvent, ExtractionState> {
     await _projectRepository.updateProject(updateProject, event.company);
 
     yield StatusCheckedState(updateProject, event.company, 1);
+  }
+
+    Stream<ExtractionState> _mapStage2PressedToState(
+      Stage2Pressed event) async* {
+    Project updateProject =
+        event.project.copyWith(extraction: {'Completed': false, 'Stage': 2});
+    await _projectRepository.updateProject(updateProject, event.company);
+
+    yield StatusCheckedState(updateProject, event.company, 2);
+  }
+
+      Stream<ExtractionState> _mapStage3PressedToState(
+      Stage3Pressed event) async* {
+        var data = await _extractionRepository.getData(event.project, event.company);
+        if(data.isEmpty) {
+          print("No Data Extracted!");
+          yield StatusCheckedState(event.project, event.company, 1);
+        }
+else{
+    Project updateProject =
+        event.project.copyWith(extraction: {'Completed': true, 'Stage': 3});
+    await _projectRepository.updateProject(updateProject, event.company);
+
+    yield StatusCheckedState(updateProject, event.company, 3);
+}
   }
 
   // Stream<ExtractionState> _mapExtractCompleteToState(

@@ -15,10 +15,54 @@ class ChartPageOne extends StatefulWidget {
 class _ChartPageOneState extends State<ChartPageOne> {
   Function get _press => widget.press;
   List<DataPoint> get _data => widget.data;
+
+  var  spend;
+  var suppliers;
+  var categories;
+
+ void _getAnalysisData(data){
+
+   try {
+     setState(() {
+       spend = totalSpend(_data);
+     });
+   } catch (e) {
+     setState(() {
+       spend = "Error Getting Data :/";
+     });
+   }
+      try {
+     setState(() {
+       suppliers = totalSuppliers(_data);
+     });
+   } catch (e) {
+     setState(() {
+       suppliers = "Error Getting Data :/";
+     });
+   }
+      try {
+     setState(() {
+       categories = totalCategories(_data);
+     });
+   } catch (e) {
+     setState(() {
+       categories = "Error Getting Data :/";
+     });
+   }
+ } 
+
+ @override
+  void initState() {
+    // TODO: implement initState
+    _getAnalysisData(_data);
+    super.initState();
+  }
+
+ 
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: _data.isEmpty ? Container(child: Text('Empty'),):Row(
+        child: Row(
       children: <Widget>[
         
         Container(
@@ -30,9 +74,11 @@ class _ChartPageOneState extends State<ChartPageOne> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Container(child: _infoCard("Spend","€${totalSpend(_data).toString()}", "The Total Spend of All Invoices")),
-                Container(child: _infoCard("Suppliers",  "${totalSuppliers(_data).toString()}", 'The Total Number of Supplier')),
-                Container(child: _infoCard("Categories", totalCategories(_data).toString(), 'The Total Number of Categories')),
+
+           
+                Container(child: _infoCard("Spend","€$spend", "The Total Spend of All Invoices")),
+                Container(child: _infoCard("Suppliers",  "$suppliers", 'The Total Number of Supplier')),
+                Container(child: _infoCard("Categories", categories , 'The Total Number of Categories')),
               ],
             ),
             Row(
@@ -83,7 +129,7 @@ class _ChartPageOneState extends State<ChartPageOne> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(child: Tooltip(message: toolTip, child: Text(main, maxLines: 1,
-              overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.blue, fontSize: 50, fontWeight: FontWeight.bold, ),)),),
+              overflow: TextOverflow.ellipsis, style: TextStyle(color: Colors.blue, fontSize: 30, fontWeight: FontWeight.bold, ),)),),
             )
           ],
         ),

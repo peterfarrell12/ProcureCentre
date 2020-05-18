@@ -20,7 +20,18 @@ class BarChart extends StatelessWidget {
       behaviors: [new charts.ChartTitle(text,
             behaviorPosition: charts.BehaviorPosition.top,
             titleOutsideJustification: charts.OutsideJustification.start,
-            innerPadding: 18),],
+            innerPadding: 18,
+            ),
+  
+            ],
+            domainAxis: new charts.OrdinalAxisSpec(
+          renderSpec: new charts.SmallTickRendererSpec(
+
+              // Tick and Label styling here.
+              labelStyle: new charts.TextStyleSpec(
+                  fontSize: 8, // size in Pts.
+                  color: charts.MaterialPalette.black),
+          ))
     );
   }
 
@@ -72,7 +83,7 @@ class CategoryPieChart extends StatelessWidget {
 
       defaultRenderer: new charts.ArcRendererConfig(arcRendererDecorators: [
           new charts.ArcLabelDecorator(
-              labelPosition: charts.ArcLabelPosition.inside)])
+              labelPosition: charts.ArcLabelPosition.outside)])
               );
     
   }

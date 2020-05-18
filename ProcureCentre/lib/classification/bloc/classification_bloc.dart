@@ -43,9 +43,16 @@ class ClassificationBloc
       yield* _mapClassifyPressedToState(event);
     } else if (event is DashboardPressed) {
       yield* _mapDashboardPressedToState(event);
-    }
-    else if (event is NewDataPressed) {
+    } else if (event is NewDataPressed) {
       yield* _mapNewDataPressedToState(event);
+    } else if (event is Stage1Pressed) {
+      yield* _mapStage1PressedToState(event);
+    } else if (event is Stage2Pressed) {
+      yield* _mapStage2PressedToState(event);
+    } else if (event is Stage3Pressed) {
+      yield* _mapStage3PressedToState(event);
+    } else if (event is Stage4Pressed) {
+      yield* _mapStage4PressedToState(event);
     }
   }
 
@@ -56,8 +63,8 @@ class ClassificationBloc
     await launch(
         "https://firebasestorage.googleapis.com/v0/b/procurecentre.appspot.com/o/Test%2Fclassifier_template.xlsx?alt=media&token=27d0472e-d2c8-4aa1-be76-c2018297c590");
 
-    Project updateProject =
-        event.project.copyWith(classification: {'Stage': 2, "Completed" : false});
+    Project updateProject = event.project
+        .copyWith(classification: {'Stage': 2, "Completed": false});
     await _projectRepository.updateProject(updateProject, event.company);
     print(updateProject.id);
     yield StatusCheckedState(updateProject, event.company, 2);
@@ -66,18 +73,17 @@ class ClassificationBloc
   Stream<ClassificationState> _mapUploadFilePressedToState(
       UploadFilePressed event) async* {
     yield CheckingStatusState(event.project, event.company);
-    print("before models");
     List<String> models = List.from(event.project.classification['Models']);
 
     // print(models);
     try {
       var response = await sendFile(event.selectedFile, event.fileName);
-      if (response == '${event.fileName}.model') {
+      if (response == '${event.fileName}') {
         models.add(event.fileName);
-        Project updateProject = event.project
-            .copyWith(classification: {'Stage': 3, 'Models': models, 'Completed' : false});
+        print("MDLS : $models");
+        Project updateProject = event.project.copyWith(
+            classification: {'Stage': 3, 'Models': models, 'Completed': false});
         await _projectRepository.updateProject(updateProject, event.company);
-        print(updateProject.id);
         yield StatusCheckedState(updateProject, event.company, 3);
         print("Success");
       } else if (response == "Failure") {
@@ -96,35 +102,38 @@ class ClassificationBloc
   Stream<ClassificationState> _mapClassifyPressedToState(
       ClassifyPressed event) async* {
     yield CheckingStatusState(event.project, event.company);
-  var myList = await getList(event.project, event.company);
-   var predictList = await predictClass(myList, event.modelName, event.categories);
-
-  List<DataPoint> dpList =
-      await _extractionRepository.getData(event.project, event.company);
-
-  for (int i = 0; i < predictList.length; i++) {
-    print(dpList[i].id);
-    print(dpList[i].supplier);
-    DataPoint newDP = dpList[i].copyWith(category: predictList[i]);
-    _extractionRepository.updateDataPoint(
-        newDP, event.project, event.company);
-
-  }
-  var newList =
+        List<DataPoint> dpList =
         await _extractionRepository.getData(event.project, event.company);
-        var map = event.project.classification;
-        map['Stage'] = 4;
-        map['Completed'] = true;
-        print(map);
 
-        Project updateProject = event.project.copyWith(classification: map);
-        await _projectRepository.updateProject(updateProject, event.company);
-        yield StatusCheckedState(event.project, event.company, 4);
+    if(event.selectAll != true){
+      dpList = dpList.where((element) => element.category == null).toList();
+    }
+    var myList = await getList(event.project, event.company, dpList);
+    var predictList =
+        await predictClass(myList, event.modelName, event.categories);
+
+
+
+    print("List Length: ${dpList.length}");
+
+    for (int i = 0; i < predictList.length; i++) {
+      DataPoint newDP = dpList[i].copyWith(category: predictList[i]);
+      _extractionRepository.updateDataPoint(
+          newDP, event.project, event.company);
+    }
+    var map = event.project.classification;
+    map['Stage'] = 4;
+    map['Completed'] = true;
+
+
+    Project updateProject = event.project.copyWith(classification: map);
+    await _projectRepository.updateProject(updateProject, event.company);
+    yield StatusCheckedState(event.project, event.company, 4);
 
     //yield Stage4State(event.project, event.company);
   }
 
-    Stream<ClassificationState> _mapNewDataPressedToState(
+  Stream<ClassificationState> _mapNewDataPressedToState(
       NewDataPressed event) async* {
     Project updateProject =
         event.project.copyWith(classification: {'Stage': 1});
@@ -136,6 +145,67 @@ class ClassificationBloc
   Stream<ClassificationState> _mapDashboardPressedToState(
       DashboardPressed event) async* {
     //yield Stage2State(event.project, event.company);
+  }
+
+  Stream<ClassificationState> _mapStage1PressedToState(
+      Stage1Pressed event) async* {
+                       List<String> models = List.from(event.project.classification['Models']);
+
+    Project updateProject = event.project
+        .copyWith(classification: {'Completed': false, 'Stage': 1, 'Models': models});
+    await _projectRepository.updateProject(updateProject, event.company);
+
+    yield StatusCheckedState(updateProject, event.company, 1);
+  }
+
+  Stream<ClassificationState> _mapStage2PressedToState(
+      Stage2Pressed event) async* {
+                       List<String> models = List.from(event.project.classification['Models']);
+
+    Project updateProject = event.project
+        .copyWith(classification: {'Completed': false, 'Stage': 2, 'Models' : models});
+    await _projectRepository.updateProject(updateProject, event.company);
+
+    yield StatusCheckedState(updateProject, event.company, 2);
+  }
+
+  Stream<ClassificationState> _mapStage3PressedToState(
+      Stage3Pressed event) async* {
+    List<String> models = List.from(event.project.classification['Models']);
+    print("Models ${models.length}");
+    if (models.isEmpty) {
+      print("No Models Created!");
+      yield StatusCheckedState(event.project, event.company, 1);
+    }
+    Project updateProject = event.project.copyWith(
+        classification: {'Completed': false, 'Stage': 3, 'Models': models});
+    await _projectRepository.updateProject(updateProject, event.company);
+
+    yield StatusCheckedState(updateProject, event.company, 3);
+  }
+
+  Stream<ClassificationState> _mapStage4PressedToState(
+      Stage4Pressed event) async* {
+    List<String> models = List.from(event.project.classification['Models']);
+
+    var data =
+        await _extractionRepository.getData(event.project, event.company);
+    var classified = [];
+    for(int i =0; i < data.length; i++){
+      if (data[i].category.isNotEmpty){
+      classified.add(data[i].category);
+      }
+    }
+    if (classified.isEmpty) {
+      print("No Data Classified!");
+      yield StatusCheckedState(event.project, event.company, 1);
+    } else {
+      Project updateProject = event.project
+          .copyWith(classification: {'Completed': true, 'Stage': 4, 'Models' : models});
+      await _projectRepository.updateProject(updateProject, event.company);
+
+      yield StatusCheckedState(updateProject, event.company, 4);
+    }
   }
 
   // Stream<ClassificationState>_mapClassificationCompleteToState(ClassificationComplete event) async* {
@@ -163,18 +233,19 @@ class ClassificationBloc
     yield StatusCheckedState(event.project, event.company, stage);
   }
 
-  Future<List<String>> getList(Project project, String company) async {
-  var dataPoints = await _extractionRepository.getData(project, company);
-  List<String> result = [];
-  for (int i = 0; i < dataPoints.length; i++) {
-    String supplier = dataPoints[i].supplier;
-    String description = dataPoints[i].description;
-    String res = '$supplier $description';
-    result.add(res);
+  Future<List<String>> getList(Project project, String company, List<DataPoint> list) async {
+    // var dataPoints  = await _extractionRepository.getData(project, company);
+    var dataPoints = list;
+    print(dataPoints.length);
+    List<String> result = [];
+    for (int i = 0; i < dataPoints.length; i++) {
+      String supplier = dataPoints[i].supplier;
+      String description = dataPoints[i].description;
+      String res = '$supplier $description';
+      result.add(res);
+    }
+    return result;
   }
-  print(result);
-  return result;
-}
 }
 
 //   // print(status);
@@ -201,27 +272,25 @@ class ClassificationBloc
 // }
 
 // Stream<ClassificationState>_mapClassificactionBeginToState(ClassificationBegin event) async* {
-  // yield ClassifyingState();
-  // var myList = await getList(event.project, event.company);
-  // var predictList = await predictClass(myList);
-  // List<DataPoint> dpList =
-  //     await _extractionRepository.getData(event.project, event.company);
-  // for (int i = 0; i < predictList.length; i++) {
-  //   print(dpList[i].id);
-  //   print(dpList[i].supplier);
-  //   DataPoint newDP = dpList[i].copyWith(category: predictList[i]);
-  //   _extractionRepository.updateDataPoint(
-  //       newDP, event.project, event.company);
-
-  // }
-  // var newList =
-  //       await _extractionRepository.getData(event.project, event.company);
-  //       bool completed = event.project.classification['Completed'];
-  //       print(completed);
-  //       Project updateProject = event.project.copyWith(classification: {'Completed' : !completed});
-  //       await _projectRepository.updateProject(updateProject, event.company);
-  //       yield ClassifiedState(event.project, newList);
+// yield ClassifyingState();
+// var myList = await getList(event.project, event.company);
+// var predictList = await predictClass(myList);
+// List<DataPoint> dpList =
+//     await _extractionRepository.getData(event.project, event.company);
+// for (int i = 0; i < predictList.length; i++) {
+//   print(dpList[i].id);
+//   print(dpList[i].supplier);
+//   DataPoint newDP = dpList[i].copyWith(category: predictList[i]);
+//   _extractionRepository.updateDataPoint(
+//       newDP, event.project, event.company);
 
 // }
+// var newList =
+//       await _extractionRepository.getData(event.project, event.company);
+//       bool completed = event.project.classification['Completed'];
+//       print(completed);
+//       Project updateProject = event.project.copyWith(classification: {'Completed' : !completed});
+//       await _projectRepository.updateProject(updateProject, event.company);
+//       yield ClassifiedState(event.project, newList);
 
-
+// }

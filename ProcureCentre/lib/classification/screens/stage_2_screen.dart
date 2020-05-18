@@ -45,6 +45,21 @@ class _ClassificationScreenStage2WidgetState
     startWebFilePicker();
   }
 
+        void onStage1Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage1Pressed(
+        project: _project, company: _company));
+  }
+
+      void onStage3Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage3Pressed(
+        project: _project, company: _company,));
+  }
+
+        void onStage4Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage4Pressed(
+        project: _project, company: _company,));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,7 +74,7 @@ class _ClassificationScreenStage2WidgetState
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: () => _goBack(),
+                    onTap: () => onStage1Pressed(context),
                     child: Container(
                       width: 201,
                       height: 55,
@@ -115,56 +130,62 @@ class _ClassificationScreenStage2WidgetState
                       ],
                     ),
                   ),
-                  Container(
-                    width: 201,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      border: Border.all(
-                        width: 1,
-                        color: Color.fromARGB(255, 151, 151, 151),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Stage 3",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 109, 114, 120),
-                            fontFamily: "Helvetica",
-                            fontWeight: FontWeight.w300,
-                            fontSize: 20,
-                          ),
+                  GestureDetector(
+                    onTap:() => onStage3Pressed(context),
+                                      child: Container(
+                      width: 201,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(
+                          width: 1,
+                          color: Color.fromARGB(255, 151, 151, 151),
                         ),
-                      ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Stage 3",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 109, 114, 120),
+                              fontFamily: "Helvetica",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                  Container(
-                    width: 201,
-                    height: 55,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      border: Border.all(
-                        width: 1,
-                        color: Color.fromARGB(255, 151, 151, 151),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Stage 4",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 109, 114, 120),
-                            fontFamily: "Helvetica",
-                            fontWeight: FontWeight.w300,
-                            fontSize: 20,
-                          ),
+                  GestureDetector(
+                    onTap: () => onStage4Pressed(context),
+                                      child: Container(
+                      width: 201,
+                      height: 55,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        border: Border.all(
+                          width: 1,
+                          color: Color.fromARGB(255, 151, 151, 151),
                         ),
-                      ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Stage 4",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 109, 114, 120),
+                              fontFamily: "Helvetica",
+                              fontWeight: FontWeight.w300,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -287,7 +308,7 @@ class _ClassificationScreenStage2WidgetState
 
   startWebFilePicker() async {
     html.InputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.multiple = true;
+    uploadInput.multiple = false;
     uploadInput.draggable = true;
     uploadInput.click();
 

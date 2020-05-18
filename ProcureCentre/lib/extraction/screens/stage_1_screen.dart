@@ -42,6 +42,7 @@ class _ExtractionScreenStage1WidgetState
     bool _chooseFile;
     List<int> _selectedFile;
   Uint8List _bytesData;
+  bool errorText = false;
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   bool failure = false;
   void onUploadFilesPressed(BuildContext context) async {
@@ -52,8 +53,22 @@ class _ExtractionScreenStage1WidgetState
   }
 
     void onChooseFilesPressed(BuildContext context) async {
+      setState(() {
+        errorText = false;
+        filesPicked = false;
+      });
     startWebFilePicker();
 
+  }
+
+      void onStage2Pressed(BuildContext context) async {
+    BlocProvider.of<ExtractionBloc>(context).add(Stage2Pressed(
+        project: _project, company: _company));
+  }
+
+      void onStage3Pressed(BuildContext context) async {
+    BlocProvider.of<ExtractionBloc>(context).add(Stage3Pressed(
+        project: _project, company: _company,));
   }
 
   @override
@@ -97,56 +112,63 @@ class _ExtractionScreenStage1WidgetState
                     ],
                   ),
                 ),
-                Container(
-                  width: 201,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 151, 151, 151),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Stage 2",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 109, 114, 120),
-                          fontFamily: "Helvetica",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                        ),
+                GestureDetector(
+                  onTap: () => onStage2Pressed(context),
+                                  child: Container(
+                    width: 201,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      border: Border.all(
+                        width: 1,
+                        color: Color.fromARGB(255, 151, 151, 151),
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Stage 2",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 109, 114, 120),
+                            fontFamily: "Helvetica",
+                            fontWeight: FontWeight.w300,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  width: 201,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 151, 151, 151),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Stage 3",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 109, 114, 120),
-                          fontFamily: "Helvetica",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                        ),
+                GestureDetector(
+                                    onTap: () => onStage3Pressed(context),
+
+                                  child: Container(
+                    width: 201,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      border: Border.all(
+                        width: 1,
+                        color: Color.fromARGB(255, 151, 151, 151),
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Stage 3",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 109, 114, 120),
+                            fontFamily: "Helvetica",
+                            fontWeight: FontWeight.w300,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 
@@ -202,6 +224,15 @@ class _ExtractionScreenStage1WidgetState
                   ),
                 ),
               ),
+            ),
+            Visibility(
+              visible: errorText,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  child: Text("Error - Max 49 Invoices!")
+                )
+              )
             ),
             Visibility(
               visible: filesPicked,
@@ -295,7 +326,14 @@ class _ExtractionScreenStage1WidgetState
       //               ));
       setState(() {
         numFiles = _files.length;
+        if (numFiles > 49){
+          errorText = true;
+        }
+        else {
               filesPicked = true;
+
+        }
+
 
       });
 

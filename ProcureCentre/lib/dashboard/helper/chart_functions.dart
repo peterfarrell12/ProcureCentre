@@ -17,7 +17,8 @@ List<charts.Series<TopSuppliers, String>> createSupplierData(List<DataPoint> ini
 
   List<charts.Series<CategorySpend, String>> createCategoryData(List<DataPoint> initialData) {
     List<CategorySpend> data = spendByCategory(initialData);
-
+    var spend = 0;
+    data.forEach((element) { spend = spend + element.spend;});
     return [
       new charts.Series<CategorySpend, String>(
         id: 'Categories',
@@ -25,13 +26,15 @@ List<charts.Series<TopSuppliers, String>> createSupplierData(List<DataPoint> ini
         measureFn: (CategorySpend sales, _) => sales.spend,
         data: data,
         // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (CategorySpend row, _) => '${row.spend}',
+        labelAccessorFn: (CategorySpend row, _) => '${((row.spend /spend ) * 100).round()}%',
       )
     ];
   }
 
    List<charts.Series<LocationSpend, String>> createLocationData(List<DataPoint> initialData) {
          List<LocationSpend> data = spendByLocation(initialData);
+    var spend = 0;
+    data.forEach((element) { spend = spend + element.spend;});
 
     return [
       new charts.Series<LocationSpend, String>(
@@ -40,7 +43,7 @@ List<charts.Series<TopSuppliers, String>> createSupplierData(List<DataPoint> ini
         measureFn: (LocationSpend sales, _) => sales.spend,
         data: data,
         // Set a label accessor to control the text of the arc label.
-        labelAccessorFn: (LocationSpend row, _) => '${row.spend}',
+        labelAccessorFn: (LocationSpend row, _) => '${((row.spend /spend ) * 100).round()}%',
       )
     ];
   

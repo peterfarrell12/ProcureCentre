@@ -7,15 +7,23 @@ import 'package:intl/intl.dart';
 
 int totalSpend(List<DataPoint> data) {
   double totalSpend = 0;
+      print("Getting Total Spend....");
 
   for (int i = 0; i < data.length; i++) {
-    totalSpend = totalSpend + double.parse(data[i].total);
+    try {
+          totalSpend = totalSpend + double.parse(data[i].total);
+
+    } catch (e) {
+      totalSpend = totalSpend + 0;
+    }
   }
 
   return totalSpend.round();
 }
 
 int totalSuppliers(List<DataPoint> data) {
+      print("Getting Total Suppliers....");
+
   List<String> totalSuppliers = [];
 
   for (int i = 0; i < data.length; i++) {
@@ -27,6 +35,8 @@ int totalSuppliers(List<DataPoint> data) {
 }
 
 int totalCategories(List<DataPoint> data) {
+      print("Getting Total Categories....");
+
   List<String> totalCategories = [];
 
   for (int i = 0; i < data.length; i++) {
@@ -38,12 +48,13 @@ int totalCategories(List<DataPoint> data) {
 }
 
 String topSupplierspend(List<DataPoint> data) {
+      print("Getting Top Supplier Spend....");
+
   List<String> suppliers = [];
   Map<String, double> supplierSpend = {};
   for (int x = 0; x < data.length; x++) {
     suppliers.add(data[x].supplier);
   }
-  print(suppliers.length);
 
   var categories = suppliers.toSet().toList();
 
@@ -51,7 +62,13 @@ String topSupplierspend(List<DataPoint> data) {
     double categoryTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].supplier == categories[i]) {
-        categoryTotal = categoryTotal + double.parse(data[j].total);
+        try {
+                  categoryTotal = categoryTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          categoryTotal = categoryTotal + 0;
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
       supplierSpend[categories[i]] = categoryTotal;
     }
@@ -78,6 +95,8 @@ String topSupplierspend(List<DataPoint> data) {
 }
 
 String topItemSpend(List<DataPoint> data) {
+      print("Getting Top Item Spend....");
+
   List<String> items = [];
   Map<String, double> itemSpend = {};
   for (int i = 0; i < data.length; i++) {
@@ -90,7 +109,12 @@ String topItemSpend(List<DataPoint> data) {
     double itemTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].description == uniqueItem[i]) {
-        itemTotal = itemTotal + double.parse(data[j].total);
+        try {
+          itemTotal = itemTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
       itemSpend[uniqueItem[i]] = itemTotal;
     }
@@ -117,6 +141,8 @@ String topItemSpend(List<DataPoint> data) {
 }
 
 int avgPerInvoice(List<DataPoint> data) {
+      print("Getting Average Spend Per Invoice....");
+
   List<String> invoices = [];
 
   for (int i = 0; i < data.length; i++) {
@@ -131,9 +157,10 @@ int avgPerInvoice(List<DataPoint> data) {
   return avgSpend.round();
 }
 List<String> suppliers(List<DataPoint> data){
+      print("Getting Supplier....");
+
   List<String> suppliers = [];
 
-  print(data);
   for (int x = 0; x < data.length; x++) {
     suppliers.add(data[x].supplier);
   }
@@ -143,9 +170,10 @@ List<String> suppliers(List<DataPoint> data){
   return categories;
 }
 List<String> categories(List<DataPoint> data){
+      print("Getting Categories....");
+
   List<String> categories = [];
 
-  print(data);
   for (int x = 0; x < data.length; x++) {
     categories.add(data[x].category);
   }
@@ -156,9 +184,10 @@ List<String> categories(List<DataPoint> data){
 }
 
 List<String> location(List<DataPoint> data){
+      print("Getting Total Locations....");
+
   List<String> location = [];
 
-  print(data);
   for (int x = 0; x < data.length; x++) {
     location.add(data[x].customer);
   }
@@ -176,15 +205,14 @@ class TopSuppliers {
 }
 
 List<TopSuppliers> topSupplierData(List<DataPoint> data) {
-  print("....");
+      print("Getting Top Supplier Data....");
+
   List<TopSuppliers> temp = [];
   List<String> suppliers = [];
   Map<String, double> supplierSpend = {};
 
-  print(data);
   for (int x = 0; x < data.length; x++) {
     suppliers.add(data[x].supplier);
-    print(data[x].category);
   }
 
   var categories = suppliers.toSet().toList();
@@ -193,8 +221,13 @@ List<TopSuppliers> topSupplierData(List<DataPoint> data) {
     double categoryTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].supplier == categories[i]) {
-        categoryTotal = categoryTotal + double.parse(data[j].total);
+        try {categoryTotal = categoryTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
+      
       supplierSpend[categories[i]] = categoryTotal;
     }
   }
@@ -205,7 +238,6 @@ List<TopSuppliers> topSupplierData(List<DataPoint> data) {
     spend.add(value);
     supp.add(key);
   });
-  print('hello');
   var sortedKeys = supplierSpend.keys.toList(growable: false)
     ..sort((k2, k1) => supplierSpend[k1].compareTo(supplierSpend[k2]));
   LinkedHashMap sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
@@ -217,7 +249,6 @@ List<TopSuppliers> topSupplierData(List<DataPoint> data) {
     temp.add(holder);
   });
 
-  print(temp);
 
   List<TopSuppliers> top3 = [];
 
@@ -236,13 +267,14 @@ class CategorySpend {
 }
 
 List<CategorySpend> spendByCategory(List<DataPoint> data) {
+      print("Getting Total Category Data....");
+
   List<String> totalCategories = [];
   List<CategorySpend> temp = [];
   Map<String, double> categorySpend = {};
 
   for (int x = 0; x < data.length; x++) {
     totalCategories.add(data[x].category);
-    print(data[x].category);
   }
   var categories = totalCategories.toSet().toList();
 
@@ -250,20 +282,21 @@ List<CategorySpend> spendByCategory(List<DataPoint> data) {
     double categoryTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].category == categories[i]) {
-        categoryTotal = categoryTotal + double.parse(data[j].total);
+        try{categoryTotal = categoryTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
       categorySpend[categories[i]] = categoryTotal;
     }
   }
 
   categorySpend.forEach((key, value) {
-    print('$key : $value');
     int newValue = value.round();
     CategorySpend holder = CategorySpend(key, newValue);
-    print(holder);
     temp.add(holder);
   });
-  print(temp);
   return temp;
 }
 
@@ -275,13 +308,14 @@ class LocationSpend {
 }
 
 List<LocationSpend> spendByLocation(List<DataPoint> data) {
+      print("Getting Spend By Location....");
+
   List<String> totalLocations = [];
   List<LocationSpend> temp = [];
   Map<String, double> locationSpend = {};
 
   for (int x = 0; x < data.length; x++) {
     totalLocations.add(data[x].customer);
-    print(data[x].customer);
   }
   var locations = totalLocations.toSet().toList();
 
@@ -289,20 +323,21 @@ List<LocationSpend> spendByLocation(List<DataPoint> data) {
     double locationTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].customer == locations[i]) {
-        locationTotal = locationTotal + double.parse(data[j].total);
+        try {locationTotal = locationTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
       locationSpend[locations[i]] = locationTotal;
     }
   }
 
   locationSpend.forEach((key, value) {
-    print('$key : $value');
     int newValue = value.round();
     LocationSpend holder = LocationSpend(key, newValue);
-    print(holder);
     temp.add(holder);
   });
-  print(temp);
   return temp;
 }
 
@@ -314,14 +349,14 @@ class TopItems {
 }
 
 List<TopItems> topItemsData(List<DataPoint> data) {
+      print("Getting Top Items Data....");
+
   List<TopItems> temp = [];
   List<String> items = [];
   Map<String, double> itemSpend = {};
 
-  print(data);
   for (int x = 0; x < data.length; x++) {
     items.add(data[x].description);
-    print(data[x].description);
   }
 
   var items1 = items.toSet().toList();
@@ -330,7 +365,12 @@ List<TopItems> topItemsData(List<DataPoint> data) {
     double itemTotal = 0;
     for (int j = 0; j < data.length; j++) {
       if (data[j].description == items1[i]) {
-        itemTotal = itemTotal + double.parse(data[j].total);
+        
+        try {itemTotal = itemTotal + double.parse(data[j].total);
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
       }
       itemSpend[items1[i]] = itemTotal;
     }
@@ -342,7 +382,6 @@ List<TopItems> topItemsData(List<DataPoint> data) {
     spend.add(value);
     item.add(key);
   });
-  print('hello');
   var sortedKeys = itemSpend.keys.toList(growable: false)
     ..sort((k2, k1) => itemSpend[k1].compareTo(itemSpend[k2]));
   LinkedHashMap sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
@@ -354,7 +393,6 @@ List<TopItems> topItemsData(List<DataPoint> data) {
     temp.add(holder);
   });
 
-  print(temp);
 
   List<TopItems> top2 = [];
 
@@ -373,6 +411,8 @@ class MonthSpend {
 }
 
 List<MonthSpend> monthlySpendData(List<DataPoint> data) {
+      print("Getting Monthly Spend....");
+
   List<MonthSpend> result = [];
   Map<DateTime, int> months = {
     DateFormat('MMM').parse('Jan'): 0,
@@ -391,17 +431,22 @@ List<MonthSpend> monthlySpendData(List<DataPoint> data) {
 
   for (int i = 0; i < data.length; i++) {
     var date = new DateFormat("yyyy-MM-dd").parse(data[i].date);
-    print(date);
     var formatter = new DateFormat('MMM');
     var formatted = formatter.format(date);
-    double spend = double.parse(data[i].total);
-    months[DateFormat('MMM').parse(formatted)] = months[DateFormat('MMM').parse(formatted)] + spend.round();
+    
+    try {
+      double spend = double.parse(data[i].total);
+          months[DateFormat('MMM').parse(formatted)] = months[DateFormat('MMM').parse(formatted)] + spend.round();
+
+
+        } catch (e) {
+          print("${data[i].id} Does Not Contain A Valid Double");
+        }
     
   }
 
   months.forEach((key, value) {
     MonthSpend temp = MonthSpend(key, value);
-    print(temp);
     result.add(temp);
   });
   return result;

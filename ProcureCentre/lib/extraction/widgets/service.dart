@@ -25,12 +25,14 @@ Future<String> loginToApi() async {
   return key;
 }
 
-Future<String> sendFile(List<String> file, List<String> filenames) async {
+Future<bool> sendFile(List<String> file, List<String> filenames) async {
   String key = await loginToApi();
 
 for(int i =0; i < file.length; i++){
 
-  var url = Uri.parse("https://api.elis.rossum.ai/v1/queues/20383/upload");
+  // var url = Uri.parse("https://api.elis.rossum.ai/v1/queues/20383/upload");
+    var url = Uri.parse("https://api.elis.rossum.ai/v1/queues/20383/upload");
+
   var request = new http.MultipartRequest("POST", url);
 
   
@@ -46,15 +48,17 @@ for(int i =0; i < file.length; i++){
       filename: filenames[i].toString()));
   print('....//');
 
-  request.send().then((response) {
-    print(response.statusCode);
-    if (response.statusCode == 200)
-      return ("Succesful Upload");
+  return request.send().then((response) {
+    // print(response.statusCode);
+    if (response.statusCode == 201){
+      return  true;
+    }
     else {
-      return 'Upload Unsuccessful';
+      return false;
     }
   });
 }
+
   }
   
 
@@ -64,7 +68,7 @@ Future<List<DataPoint>> retrieveData(
 print('successfully logged in $key');
 print(startTime);
   var res = await http.get(
-      'https://api.elis.rossum.ai/v1/queues/20383/export?format=json&status=exported&columns=meta_file_name,invoice_id,date_issue,sender_name,amount_total&arrived_at_after=$startTime',
+      'https://api.elis.rossum.ai/v1/queues/20383/export?format=json&status=exported&columns=meta_file_name,invoice_id,date_issue,sender_name,amount_total',
       headers: {'Authorization': 'token $key'});
 
   print(".....");
@@ -76,7 +80,7 @@ print(startTime);
   int noInvoices = j['pagination']['total'];
     List<DataPoint> itemList = [];
   print(noInvoices);
-  for (int k = 0; k < 50; k ++){
+  for (int k = 0; k < noInvoices; k ++){
 
   var invoiceInfo = j['results'][k]['content'][0];
   var amountsSection = j['results'][k]['content'][2];
@@ -93,13 +97,11 @@ print(startTime);
   //iterateJson(json.encode(lineItemData));
 
   var items = j['results'][k]['content'][5]['children'][0]['children'] as List;
-  print(items.length);
-
   for (var i = 0; i < items.length; i++) {
    
     String item_code;
     String description;
-    String qty;
+    String quantity;
     String uom;
     String amount_base;
     String total_base;
@@ -119,11 +121,9 @@ print(startTime);
           item_code = b.toString();
         }
         else if(a.toString() == 'item_description') {
-          description = b.toString();
-          print(description);
-        }
+          description = b.toString();        }
         else if(a.toString() == 'item_quantity'){
-          qty = b.toString();
+          quantity = b.toString();
         }
         else if(a.toString() == 'item_uom'){
           uom = b.toString();
@@ -141,7 +141,11 @@ print(startTime);
         
         }
       }
-    
+      amount_total = amount_total.isEmpty ? "1.0" : amount_total;
+      print(amount_total);
+            quantity = quantity.isEmpty ? "1.0" : quantity;
+
+      print(quantity);
 
     DataPoint test = DataPoint(
         invoice: invoiceID != null ? invoiceID :  "NA" ,
@@ -152,20 +156,19 @@ print(startTime);
         code: item_code != null ? item_code : "NA" ,
         currency: currency != null ? currency :  "NA" ,
         description: description != null ? description :   "NA",
-        qty: qty != null ? qty :   "NA",
-        uom: uom != null ? uom :    "NA",
-        price: amount_base != null ? amount_base :   "NA",
+        qty: quantity.isNotEmpty ? quantity :  "1.0",
+        uom: uom.isNotEmpty ? uom :  "Each",
+        price: amount_base.isNotEmpty ? amount_base : (double.parse(amount_total) / double.parse(quantity)).toString() ,
         base: total_base != null ? total_base :   "NA",
-        total: amount_total != null ? amount_total :   "NA");
+        
+        total: amount_total.isNotEmpty ? amount_total :     "NA"       ,
+);
     itemList.add(test);
   }
     
 
-  print(itemList);
   }
-
     
   return itemList;
     
-  //print(single);
 }

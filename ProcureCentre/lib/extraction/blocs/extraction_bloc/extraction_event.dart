@@ -95,15 +95,14 @@ class DeleteDataPressed extends ExtractionEvent {
 class NewExtractPressed extends ExtractionEvent {
   final Project project;
   final String company;
-  final List<DataPoint> currentData;
 
-  const NewExtractPressed({@required this.project, @required this.company, @required this.currentData});
+  const NewExtractPressed({@required this.project, @required this.company,});
 
   @override
   List<Object> get props => [project];
 
   @override
-  String toString() => 'New Extract Pressed... { Project :${project.name} }';
+  String toString() => 'Stage 1 Pressed... { Project :${project.name} }';
 }
 
 class GetDataEvent extends ExtractionEvent {
@@ -117,4 +116,30 @@ class GetDataEvent extends ExtractionEvent {
 
   @override
   String toString() => 'Get Data Event... { Project :${project.name} }';
+}
+
+class Stage2Pressed extends ExtractionEvent {
+  final Project project;
+  final String company;
+
+  const Stage2Pressed({@required this.project, @required this.company, });
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 2 Pressed... { Project :${project.name} }';
+}
+
+class Stage3Pressed extends ExtractionEvent {
+  final Project project;
+  final String company;
+
+  const Stage3Pressed({@required this.project, @required this.company,});
+
+  @override
+  List<Object> get props => [project];
+
+  @override
+  String toString() => 'Stage 3 Pressed... { Project :${project.name} }';
 }

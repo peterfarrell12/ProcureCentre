@@ -163,20 +163,20 @@ class _TestClassState extends State<TestClass> {
                                   print(state.stage);
                                   if (state.stage == 1) {
                                     return ClassificationScreenStage1Widget(
-                                        project: _project, company: _company);
+                                        project: state.project, company: _company);
                                   } 
                                   if (state.stage == 2) {
                                     return ClassificationScreenStage2Widget(
-                                        project: _project, company: _company);
+                                        project: state.project, company: _company);
                                   } 
                                   if (state.stage == 3) {
                                     return ClassificationScreenStage3Widget(
-                                        project: _project, company: _company);
+                                        project: state.project, company: _company);
                                   } 
 
                                   if (state.stage == 4) {
                                     return ClassificationScreenStage4Widget(
-                                        project: _project, company: _company);
+                                        project: state.project, company: _company);
                                   }
                                 } else {
                                   return Container();

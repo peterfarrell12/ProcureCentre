@@ -12,6 +12,7 @@ import 'package:ProcureCentre/classification/screens/test_class.dart';
 import 'package:ProcureCentre/extraction/blocs/extraction_bloc/extraction_bloc.dart';
 import 'package:ProcureCentre/extraction/blocs/extraction_bloc/extraction_event.dart';
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
+import 'package:ProcureCentre/extraction/widgets/export_to_csv.dart';
 import 'package:ProcureCentre/project_repository.dart';
 
 import 'package:flutter/material.dart';
@@ -49,7 +50,12 @@ class _ExtractionScreenStage3WidgetState
 
   void onNewExtractPressed(BuildContext context) async {
     BlocProvider.of<ExtractionBloc>(context).add(NewExtractPressed(
-        project: _project, company: _company, currentData: _projectData));
+        project: _project, company: _company, ));
+  }
+
+    void onStage2Pressed(BuildContext context) async {
+    BlocProvider.of<ExtractionBloc>(context).add(Stage2Pressed(
+        project: _project, company: _company));
   }
 
   void onClassificationPressed(BuildContext context) {
@@ -116,56 +122,62 @@ class _ExtractionScreenStage3WidgetState
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 201,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          border: Border.all(
-                            width: 1,
-                            color: Color.fromARGB(255, 151, 151, 151),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Stage 1",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 109, 114, 120),
-                                fontFamily: "Helvetica",
-                                fontWeight: FontWeight.w300,
-                                fontSize: 20,
-                              ),
+                      GestureDetector(
+                        onTap: () => onNewExtractPressed(context),
+                                              child: Container(
+                          width: 201,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 151, 151, 151),
                             ),
-                          ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Stage 1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        width: 201,
-                        height: 55,
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          border: Border.all(
-                            width: 1,
-                            color: Color.fromARGB(255, 151, 151, 151),
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Stage 2",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 109, 114, 120),
-                                fontFamily: "Helvetica",
-                                fontWeight: FontWeight.w300,
-                                fontSize: 20,
-                              ),
+                      GestureDetector(
+onTap: () => onStage2Pressed(context),
+                                              child: Container(
+                          width: 201,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            border: Border.all(
+                              width: 1,
+                              color: Color.fromARGB(255, 151, 151, 151),
                             ),
-                          ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Stage 2",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       Container(
@@ -201,6 +213,51 @@ class _ExtractionScreenStage3WidgetState
                 ),
               ),
             ),
+                              Container(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RaisedButton(
+                              onPressed: () => onNewExtractPressed(context),
+                              child: Text(
+                                "New",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                                                        RaisedButton(
+                              onPressed: () => getCsv(_project, _projectData),
+                              child: Text(
+                                "Export",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            RaisedButton(
+                              onPressed: () => onClassificationPressed(context),
+                              child: Text(
+                                "Classifiy",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )
+                          ])),
             Align(
               alignment: Alignment.topCenter,
               child: Container(
@@ -297,38 +354,7 @@ class _ExtractionScreenStage3WidgetState
                       ),
                     ),
                   ),
-                  Container(
-                      padding: EdgeInsets.all(16),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FlatButton(
-                              onPressed: () => onNewExtractPressed(context),
-                              child: Text(
-                                "New Extract",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 109, 114, 120),
-                                  fontFamily: "Helvetica",
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                            FlatButton(
-                              onPressed: () => onClassificationPressed(context),
-                              child: Text(
-                                "Classification",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 109, 114, 120),
-                                  fontFamily: "Helvetica",
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            )
-                          ]))
+
                 ]),
               ),
             )

@@ -30,15 +30,25 @@ class _ClassificationScreenStage1WidgetState extends State<ClassificationScreenS
   String get _company => widget.company;
 
   void onDownloadButtonPressed(BuildContext context)async  {
-    // await launch(
-   
-    //  "https://firebasestorage.googleapis.com/v0/b/procurecentre.appspot.com/o/Test%2Fclassifier_template.xlsx?alt=media&token=27d0472e-d2c8-4aa1-be76-c2018297c590");
-   print("not pressed");
    BlocProvider.of<ClassificationBloc>(context).add(
                             DownloadFilePressed(
                                 project: _project, company: _company));
   
-         print("Pressed");
+  }
+
+        void onStage2Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage2Pressed(
+        project: _project, company: _company));
+  }
+
+      void onStage3Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage3Pressed(
+        project: _project, company: _company,));
+  }
+
+        void onStage4Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage4Pressed(
+        project: _project, company: _company,));
   }
 
   @override
@@ -85,82 +95,91 @@ class _ClassificationScreenStage1WidgetState extends State<ClassificationScreenS
                             ],
                           ),
                         ),
-                        Container(
-                          width: 201,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            border: Border.all(
-                              width: 1,
-                              color: Color.fromARGB(255, 151, 151, 151),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Stage 2",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 109, 114, 120),
-                                  fontFamily: "Helvetica",
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                ),
+                        GestureDetector(
+                          onTap: () => onStage2Pressed(context),
+                                                  child: Container(
+                            width: 201,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              border: Border.all(
+                                width: 1,
+                                color: Color.fromARGB(255, 151, 151, 151),
                               ),
-                            ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Stage 2",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 109, 114, 120),
+                                    fontFamily: "Helvetica",
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          width: 201,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            border: Border.all(
-                              width: 1,
-                              color: Color.fromARGB(255, 151, 151, 151),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Stage 3",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 109, 114, 120),
-                                  fontFamily: "Helvetica",
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                ),
+                        GestureDetector(
+                          onTap: () => onStage3Pressed(context),
+                                                  child: Container(
+                            width: 201,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              border: Border.all(
+                                width: 1,
+                                color: Color.fromARGB(255, 151, 151, 151),
                               ),
-                            ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Stage 3",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 109, 114, 120),
+                                    fontFamily: "Helvetica",
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                        Container(
-                          width: 201,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            border: Border.all(
-                              width: 1,
-                              color: Color.fromARGB(255, 151, 151, 151),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Stage 4",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 109, 114, 120),
-                                  fontFamily: "Helvetica",
-                                  fontWeight: FontWeight.w300,
-                                  fontSize: 20,
-                                ),
+                        GestureDetector(
+                          onTap: () => onStage4Pressed(context),
+                                                  child: Container(
+                            width: 201,
+                            height: 55,
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 255, 255, 255),
+                              border: Border.all(
+                                width: 1,
+                                color: Color.fromARGB(255, 151, 151, 151),
                               ),
-                            ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Stage 4",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Color.fromARGB(255, 109, 114, 120),
+                                    fontFamily: "Helvetica",
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

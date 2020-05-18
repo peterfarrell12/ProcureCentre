@@ -1,16 +1,12 @@
-/*
-*  Classification_screen_stage1_widget.dart
-*  ProcureCentre - Screens
-*
-*  Created by .
-*  Copyright © 2018 . All rights reserved.
-    */
 
 import 'package:ProcureCentre/classification/bloc/classification_bloc.dart';
+import 'package:ProcureCentre/classification/widgets/export_to_csv.dart';
+import 'package:ProcureCentre/dashboard/screens/dashboard_screen.dart';
 
 
 import 'package:ProcureCentre/extraction/firebase_extraction_repository.dart';
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
+import 'package:ProcureCentre/project_repository.dart';
 import 'package:ProcureCentre/projects/models/project.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,19 +33,39 @@ class _ClassificationScreenStage4WidgetState
   Project get _project => widget.project;
   String get _company => widget.company;
   List<DataPoint> _projectData  = [];
-  void _getData(Project project, String company) async {
+  final _classificationBloc = ClassificationBloc(extractionRepository: FirebaseExtractionRepository(), projectRepository: FirebaseProjectRepository());
+  Future<void> _getData(Project project, String company) async {
     List<DataPoint> data =
         await FirebaseExtractionRepository().getData(project, company);
     setState(() {
       _projectData = data;
     });
+      var cat = [];
+    for(int i =0; i < _projectData.length; i++){
+      if (_projectData[i].category.isNotEmpty){
+      cat.add(_projectData[i].category);
+      }
+    }
+    print(" PD ${_projectData.length}");
+    print(cat.length);
+     if (cat.length != _projectData.length){
+      print('Should Show');
+      _showEmptyDialog();
+      }
   }
 
   // void onNewExtractPressed(BuildContext context) async {
   // }
 
     void onDashboardPressed(BuildContext context) async {
-    
+        Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return DashboardScreen(project: _project, company: _company,);
+                                    //ClassificationMain(project: state.currentProject, company: _company);
+                                                                      },
+                                                                    ),
+                                                                  );
   }
 
   List<DataPoint> selectedData;
@@ -74,19 +90,69 @@ class _ClassificationScreenStage4WidgetState
       }
     });
   }
+   void onStage1Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context)
+        .add(Stage1Pressed(project: _project, company: _company));
+  }
 
+  void onStage2Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage2Pressed(
+      project: _project,
+      company: _company,
+    ));
+  }
+
+  void onStage3Pressed(BuildContext context) async {
+    BlocProvider.of<ClassificationBloc>(context).add(Stage4Pressed(
+      project: _project,
+      company: _company,
+    ));
+  }
+
+  void _showEmptyDialog() {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text("Warning - Unclassified Data"),
+          content: new Text("Some Of Your Data Is Not Classified, If You Wish To Classify This Data Please Go To Stage 1"),
+          actions: <Widget>[
+                        new FlatButton(
+              child: new Text("Close", style: TextStyle(color: Theme.of(context).primaryColor),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            
+            ),
+          ],
+        );
+      },
+    );
+    }
+  
   //ClassificationBloc _ClassificationBloc;
   @override
-  void initState() {
+  void initState(){
     sort = false;
     selectedData = [];
-    _getData(_project, _company);
+      _getData(_project, _company);
+  
+
     //_projectData = FirebaseClassificationRepository().getData(_project, _company);
     super.initState();
   }
 
+@override
+  void dispose() {
+    // TODO: implement dispose
+    _classificationBloc.close();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
+
     return _projectData.length == 0 ? Align(          alignment: Alignment.topCenter,
  child: Container(
    padding: EdgeInsets.all(16),
@@ -104,7 +170,69 @@ class _ClassificationScreenStage4WidgetState
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-        Container(
+        GestureDetector(
+          onTap: () => onStage1Pressed(context),
+                  child: Container(
+            width: 201,
+            height: 55,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 255, 255),
+              border: Border.all(
+                width: 1,
+                color: Color.fromARGB(255, 151, 151, 151),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Stage 1",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 109, 114, 120),
+                    fontFamily: "Helvetica",
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+                    onTap: () => onStage2Pressed(context),
+
+                  child: Container(
+            width: 201,
+            height: 55,
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 255, 255),
+              border: Border.all(
+                width: 1,
+                color: Color.fromARGB(255, 151, 151, 151),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Stage 2",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 109, 114, 120),
+                    fontFamily: "Helvetica",
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+                GestureDetector(
+                            onTap: () => onStage3Pressed(context),
+
+                                  child: Container(
           width: 201,
           height: 55,
           decoration: BoxDecoration(
@@ -118,70 +246,19 @@ class _ClassificationScreenStage4WidgetState
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Stage 1",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 109, 114, 120),
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.w300,
-                  fontSize: 20,
-                ),
+                  "Stage 3",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 109, 114, 120),
+                    fontFamily: "Helvetica",
+                    fontWeight: FontWeight.w300,
+                    fontSize: 20,
+                  ),
               ),
             ],
           ),
         ),
-        Container(
-          width: 201,
-          height: 55,
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
-            border: Border.all(
-              width: 1,
-              color: Color.fromARGB(255, 151, 151, 151),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Stage 2",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 109, 114, 120),
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.w300,
-                  fontSize: 20,
                 ),
-              ),
-            ],
-          ),
-        ),
-                Container(
-          width: 201,
-          height: 55,
-          decoration: BoxDecoration(
-            color: Color.fromARGB(255, 255, 255, 255),
-            border: Border.all(
-              width: 1,
-              color: Color.fromARGB(255, 151, 151, 151),
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Stage 3",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color.fromARGB(255, 109, 114, 120),
-                  fontFamily: "Helvetica",
-                  fontWeight: FontWeight.w300,
-                  fontSize: 20,
-                ),
-              ),
-            ],
-          ),
-        ),
 
                 Container(
           width: 201,
@@ -216,12 +293,59 @@ class _ClassificationScreenStage4WidgetState
             ),
           ),
       ),
+      Container(
+                      padding: EdgeInsets.all(16),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RaisedButton(
+                              onPressed: () => onStage1Pressed(context),
+                              child: Text(
+                                "New",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                                                        RaisedButton(
+                              onPressed: () => getCsv(_project, _projectData),
+                              child: Text(
+                                "Export",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                            RaisedButton(
+                              onPressed: () => onDashboardPressed(context),
+                              child: Text(
+                                "Dashboard",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Color.fromARGB(255, 109, 114, 120),
+                                  fontFamily: "Helvetica",
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            )
+                          ])),
       Align(
           alignment: Alignment.topCenter,
           child: Container(
             width: double.infinity,
             //height: double.infinity,
             child: Column(children: [
+
+
               Align(
                 alignment: Alignment.topCenter,
                 child: Container(
@@ -302,12 +426,12 @@ class _ClassificationScreenStage4WidgetState
                                   : Text(item.uom),
                             ),
                             DataCell(Text(
-                              "€ ${double.parse(item.price).round()}",
+                              "€ ${item.price}",
                               maxLines: 1,
                             )),
                             DataCell(
                               Text(
-                                "€ ${double.parse(item.total).round()}",
+                                "€ ${item.price}",
                                 maxLines: 1,
                               ),
                             ),
@@ -316,35 +440,7 @@ class _ClassificationScreenStage4WidgetState
         ),
                 ),
               ),
-              Container(
-                padding: EdgeInsets.all(16),
-                child:
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    FlatButton(onPressed: (){} , child: Text(
-          "Other Option",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color.fromARGB(255, 109, 114, 120),
-            fontFamily: "Helvetica",
-            fontWeight: FontWeight.w300,
-            fontSize: 20,
-          ),
-        ), ),
-        FlatButton(onPressed: () {}, child: Text(
-          "Generate Dashboard",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color.fromARGB(255, 109, 114, 120),
-            fontFamily: "Helvetica",
-            fontWeight: FontWeight.w300,
-            fontSize: 20,
-          ),
-        ), )
-                  ]
-                )
-              )
+
             ]),
           ),
 

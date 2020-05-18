@@ -47,6 +47,16 @@ class _ExtractionScreenStage2WidgetState
         _launchURL("https://elis.rossum.ai/annotations/20383?page=1&pageSize=15&status=toReview,reviewing,importing,failedImport");
   }
 
+    void onNewExtractPressed(BuildContext context) async {
+    BlocProvider.of<ExtractionBloc>(context).add(NewExtractPressed(
+        project: _project, company: _company));
+  }
+
+    void onStage3Pressed(BuildContext context) async {
+    BlocProvider.of<ExtractionBloc>(context).add(Stage3Pressed(
+        project: _project, company: _company));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,7 +70,9 @@ class _ExtractionScreenStage2WidgetState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                                Container(
+                                GestureDetector(
+                                  onTap: () => onNewExtractPressed(context),
+                                                                  child: Container(
                   width: 201,
                   height: 55,
                   decoration: BoxDecoration(
@@ -86,6 +98,7 @@ class _ExtractionScreenStage2WidgetState
                     ],
                   ),
                 ),
+                                ),
                 Container(
                   width: 201,
                   height: 55,
@@ -115,30 +128,33 @@ class _ExtractionScreenStage2WidgetState
                   ),
                 ),
 
-                Container(
-                  width: 201,
-                  height: 55,
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      width: 1,
-                      color: Color.fromARGB(255, 151, 151, 151),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Stage 3",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 109, 114, 120),
-                          fontFamily: "Helvetica",
-                          fontWeight: FontWeight.w300,
-                          fontSize: 20,
-                        ),
+                GestureDetector(
+                  onTap: () => onStage3Pressed(context),
+                                  child: Container(
+                    width: 201,
+                    height: 55,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 255, 255, 255),
+                      border: Border.all(
+                        width: 1,
+                        color: Color.fromARGB(255, 151, 151, 151),
                       ),
-                    ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Stage 3",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 109, 114, 120),
+                            fontFamily: "Helvetica",
+                            fontWeight: FontWeight.w300,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 

@@ -158,7 +158,6 @@ class _ExtractionMainState extends State<ExtractionMain> {
                               return Container(child: CircularProgressIndicator());
                             }
                             if (state is StatusCheckedState) {
-                              print(state.stage);
                               if (state.stage == 1) {
                                 return ExtractionScreenStage1Widget(
                                     project: _project, company: _company);
