@@ -1,6 +1,8 @@
 import 'package:ProcureCentre/dashboard/Widgets/choice_chip.dart';
+import 'package:ProcureCentre/dashboard/Widgets/insight_creator.dart';
 import 'package:ProcureCentre/dashboard/Widgets/multi_filter_chip.dart';
 import 'package:ProcureCentre/dashboard/bloc/dashboard_bloc.dart';
+import 'package:ProcureCentre/dashboard/screens/insights.dart';
 import 'package:ProcureCentre/extraction/firebase_extraction_repository.dart';
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:ProcureCentre/projects/firebase_project_repository.dart';
@@ -17,6 +19,9 @@ import 'package:ProcureCentre/dashboard/helper/data_transformer.dart';
 import 'chart_page_1.dart';
 import 'chart_page_2.dart';
 import 'chart_page_3.dart';
+import 'dart:math';
+
+Random random = new Random();
 
 class DashboardScreen extends StatefulWidget {
   final Project project;
@@ -175,6 +180,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
         //   ),
         // )
       ),
+    );
+  }
+
+  AlertDialog _getInsights(BuildContext context, List<DataPoint> data){
+    // int number = random.nextInt(7) + 1;
+    // print("Num = $number");
+    // String insight = createInsight(6, data);
+    // print("Insight == $insight");
+    return AlertDialog(
+      content: Insights(data: data),
     );
   }
 
@@ -456,7 +471,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             } else if (state is DashboardLoadingState) {
               return Center(child: CircularProgressIndicator());
             } else if (state is DashboardLoadedState) {
-              print(data);
+              print("Hello$data");
                   var supplierData = state.data.map((e) => e.supplier).toList();
                 var supplierSet = supplierData.toSet().toList();
                                   var categoryData = state.data.map((e) => e.category).toList();
@@ -553,23 +568,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: _popUpCategoryFilter(context, categorySet, "Category",)),
 
                             Column(
-                              children: <Widget>[
-                                Container(
-                                  child: Text("Insights"),
-                                ),
-                                IconButton(
-                                    icon: Icon(FontAwesomeIcons.circleNotch,
-                                        color: Theme.of(context).primaryColor),
-                                    onPressed: null)
-                              ],
-                            ),
+                                children: <Widget>[
+                                  Container(
+                                    child: Text("Insights"),
+                                  ),
+                                  IconButton(
+                                      icon: Icon(Icons.bubble_chart,
+                                          color: Theme.of(context).primaryColor),
+                                      onPressed: () { 
+                                        showDialog(
+                                          
+                                          context: context, 
+                                    builder:  (_) => _getInsights(context, state.data));
+                                      
+                                      },
+                                      
+                                  )  
+                         
+                                ],
+                              ),
                             Column(
                               children: <Widget>[
                                 Container(
                                   child: Text("Export"),
                                 ),
                                 IconButton(
-                                    icon: Icon(FontAwesomeIcons.fileExport,
+                                    icon: Icon(Icons.file_download,
                                         color: Theme.of(context).primaryColor),
                                     onPressed: null)
                               ],

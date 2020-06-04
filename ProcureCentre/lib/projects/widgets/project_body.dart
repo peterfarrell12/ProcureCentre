@@ -2,7 +2,6 @@ import 'dart:html' as html;
 
 import 'package:ProcureCentre/classification/bloc/classification_bloc.dart';
 import 'package:ProcureCentre/classification/screens/classification_main.dart';
-import 'package:ProcureCentre/classification/screens/classification_screen.dart';
 import 'package:ProcureCentre/classification/screens/test_class.dart';
 import 'package:ProcureCentre/dashboard/screens/dashboard_screen.dart';
 import 'package:ProcureCentre/extraction/screens/extraction_home.dart';
@@ -78,7 +77,7 @@ class _ProjectBodyState extends State<ProjectBody> {
                                     ? Colors.amber
                                     : (state.currentProject.status ==
                                             'Completed')
-                                        ? Colors.greenAccent
+                                        ? Theme.of(context).primaryColor
                                         : Colors.grey,
                             elevation: 5,
                             shape: RoundedRectangleBorder(
@@ -111,43 +110,7 @@ class _ProjectBodyState extends State<ProjectBody> {
 
                         //mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-//                           Container(
-//                             child: _featureCard(
-//                                 'Spend Data Extraction',
-//                                 "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-//                                Theme.of(context).primaryColor,
-//                                Theme.of(context).primaryColor,
-//                                  ()  {
-//                               Navigator.of(context).push(
-//                                 MaterialPageRoute(
-//                                   builder: (context) {
-//                                     return ExtractionMain (
-//                                       project: state.currentProject,
-//                                       company: _company,
-                                     
-//                                     );
-//                                   },
-//                                 ),
-//                               );
-//                             }, context),
-//                           ),
-//                           Container(
-//                             child: _featureCard(
-//                                 'Spend Classification',
-//                                 "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-//                                  !state.currentProject.extraction["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
-//                                 !state.currentProject.extraction["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
-//                                 !state.currentProject.extraction["Completed"] ?  () => showDialog(context: context, child: _noDataDialog("Use"))  :
-// (){                              Navigator.of(context).push(
-//                                 MaterialPageRoute(
-//                                   builder: (context) {
-//                                     return TestClass(project: state.currentProject, company: _company,);
-//                                     //ClassificationMain(project: state.currentProject, company: _company);
-//                                                                       },
-//                                                                     ),
-//                                                                   );
-//                                                                 }, context),
-//                                                               ),
+
                                                                Container(
                                                                 padding: EdgeInsets.all(10),
                                                                 child:
@@ -189,27 +152,6 @@ class _ProjectBodyState extends State<ProjectBody> {
                                                                       },));}
                                                                       ,context, 
                                                                        "Dashboard"))
-
-
-
-                                //                               Container(
-                                //                                 child: _featureCard(
-                                //                                     'Dashboard',
-                                //                                     "Spend Classification involves using preprocessed, historic spend data to predict the category of the incoming data.",
-                                //                                   !state.currentProject.classification["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
-                                // !state.currentProject.classification["Completed"] ?  Colors.grey : Theme.of(context).primaryColor,
-                                // !state.currentProject.classification["Completed"] ?  () => showDialog(context: context, child: _noDataDialog("Use")) :
-                                                                    
-                                //                                      () {
-                                //                                   Navigator.of(context).push(
-                                //                                     MaterialPageRoute(
-                                //                                       builder: (context) {
-                                //                                         return DashboardScreen(project: state.currentProject, company: _company,);
-                                //                                       },
-                                //                                     ),
-                                //                                   );
-                                //                                 }, context),
-                                //                               ),
                                     
                                                             ],
                                                           ),
@@ -492,12 +434,6 @@ _progressReport(Project project, context) {
                         ? Icon(Icons.check_box, color: Colors.green)
                         : Icon(Icons.close, color: Colors.red),
                   ),
-                  // ListTile(
-                  //   title: Text('Spend Classification'),
-                  //   trailing: project.classification['Completed']
-                  //       ? Icon(Icons.check_box, color: Colors.green)
-                  //       : Icon(Icons.close, color: Colors.red),
-                  // ),
                   ListTile(
                     title: Text('Dashboard Generation'),
                     trailing: project.dashboard['Completed']

@@ -28,6 +28,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   User get _user => widget.user;
+ 
   //UserRepository get _userRepository => widget.userRepository;
   HomeBloc _homeBloc;
 
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // String _id = _user.documentId;
     int page = 0;
     _homeBloc = HomeBloc(user: _user);
+    _homeBloc.state;
     final AuthenticationBloc authenticationBloc =
         BlocProvider.of<AuthenticationBloc>(context);
     return 

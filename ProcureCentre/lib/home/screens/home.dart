@@ -17,7 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  HomeScreenBloc _homeScreenBloc;
+  // HomeScreenBloc _homeScreenBloc;
   String get _company => widget.company;
   List table1Rows;
 
@@ -44,11 +44,20 @@ class _HomeState extends State<Home> {
       child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
         builder: (context, state) {
           if (state is HomeScreenLoading) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: [Container(
-                    child: Center(child: CircularProgressIndicator()))]);
-          } else if (state is HomeScreenLoaded) {
+            return
+
+              
+              
+                                Container(
+                      width: w * .93,
+                        child: Center(child: CircularProgressIndicator()));}
+                      
+              //   ),
+              // ],
+            
+                  
+                
+           else if (state is HomeScreenLoaded) {
             List<Table1> data = state.companyData['Table 1'].toList();
             List<Table2> data2 = state.companyData['Table 2'].toList();
 
@@ -384,8 +393,7 @@ class _HomeState extends State<Home> {
                                                       )))),
                                               DataCell(Center(
                                                   child: Text(
-                                                      item.projects
-                                                          .toString(),
+                                                      item.projects.toString(),
                                                       style: TextStyle(
                                                         color: AppColors
                                                             .primaryText,
@@ -422,8 +430,8 @@ class _HomeState extends State<Home> {
                                               )
                                             ],
                                           ),
-                                        ).toList()
-                                        )),
+                                        )
+                                        .toList())),
                           ),
                         ),
                         FittedBox(
@@ -434,73 +442,75 @@ class _HomeState extends State<Home> {
                               data: Theme.of(context)
                                   .copyWith(dividerColor: Colors.white),
                               child: DataTable(
-                                showCheckboxColumn: false,
-                                columns: [
-                                  DataColumn(
-                                      label: Center(
-                                          child: Text(
-                                    "Feature",
-                                    style: TextStyle(
-                                        fontFamily: "Helvetica",
-                                        fontSize: 20,
-                                        color: Theme.of(context).primaryColor),
-                                  ))),
-                                  DataColumn(
-                                      label: Center(
-                                          child: Text(
-                                    "Projects",
-                                    style: TextStyle(
-                                        fontFamily: "Helvetica",
-                                        fontSize: 20,
-                                        color: Theme.of(context).primaryColor),
-                                  ))),
-                                  DataColumn(
-                                      label: Center(
-                                          child: Text(
-                                    "Percentage",
-                                    style: TextStyle(
-                                        fontFamily: "Helvetica",
-                                        fontSize: 20,
-                                        color: Theme.of(context).primaryColor),
-                                  ))),
-
-                                ],
-                                rows: data2.map((item) => 
-                                  DataRow(cells: [
-                                    DataCell(Center(
-                                        child: Text(item.feature,
-                                            style: TextStyle(
-                                              color: AppColors.primaryText,
-                                              fontFamily: "Helvetica",
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: 20,
-                                            )))),
-                                    DataCell(Center(
-                                      child: Text(item.projects.toString(),
-                                          style: TextStyle(
-                                            color: AppColors.primaryText,
-                                            fontFamily: "Helvetica",
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 20,
-                                          )),
-                                    )),
-                                    DataCell(Center(
-                                        child: Text("${item.percentage.round()}%",
-                                            style: TextStyle(
-                                              color: AppColors.primaryText,
-                                              fontFamily: "Helvetica",
-                                              fontWeight: FontWeight.w300,
-                                              fontSize: 20,
-                                            )))),
-
-                                  ])
-                                ).toList()
-                                  
-
-                                  
-                                  
-                                
-                              ),
+                                  showCheckboxColumn: false,
+                                  columns: [
+                                    DataColumn(
+                                        label: Center(
+                                            child: Text(
+                                      "Feature",
+                                      style: TextStyle(
+                                          fontFamily: "Helvetica",
+                                          fontSize: 20,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ))),
+                                    DataColumn(
+                                        label: Center(
+                                            child: Text(
+                                      "Projects",
+                                      style: TextStyle(
+                                          fontFamily: "Helvetica",
+                                          fontSize: 20,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ))),
+                                    DataColumn(
+                                        label: Center(
+                                            child: Text(
+                                      "Percentage",
+                                      style: TextStyle(
+                                          fontFamily: "Helvetica",
+                                          fontSize: 20,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                    ))),
+                                  ],
+                                  rows: data2
+                                      .map((item) => DataRow(cells: [
+                                            DataCell(Center(
+                                                child: Text(item.feature,
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppColors.primaryText,
+                                                      fontFamily: "Helvetica",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontSize: 20,
+                                                    )))),
+                                            DataCell(Center(
+                                              child: Text(
+                                                  item.projects.toString(),
+                                                  style: TextStyle(
+                                                    color:
+                                                        AppColors.primaryText,
+                                                    fontFamily: "Helvetica",
+                                                    fontWeight: FontWeight.w300,
+                                                    fontSize: 20,
+                                                  )),
+                                            )),
+                                            DataCell(Center(
+                                                child: Text(
+                                                    "${item.percentage.round()}%",
+                                                    style: TextStyle(
+                                                      color:
+                                                          AppColors.primaryText,
+                                                      fontFamily: "Helvetica",
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontSize: 20,
+                                                    )))),
+                                          ]))
+                                      .toList()),
                             ),
                           ),
                         ),
@@ -533,7 +543,7 @@ class _HomeState extends State<Home> {
                             child: RichText(
                               text: TextSpan(children: <TextSpan>[
                                 TextSpan(
-                                  text: "Data Extracted from",
+                                  text: "Data Extracted from r",
                                   style: TextStyle(
                                     color: AppColors.primaryText,
                                     fontFamily: "Helvetica",
@@ -542,7 +552,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: " 1200",
+                                  text: state.companyData['Invoices'].toString(),
                                   style: TextStyle(
                                     color: AppColors.secondaryText,
                                     fontFamily: "Helvetica",
@@ -571,7 +581,7 @@ class _HomeState extends State<Home> {
                                       fontSize: 50, color: Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "15000",
+                                      text: state.companyData['Data'].toString(),
                                       style: TextStyle(
                                         color: AppColors.secondaryText,
                                         fontFamily: "Helvetica",
@@ -601,7 +611,7 @@ class _HomeState extends State<Home> {
                                       fontSize: 50, color: Colors.white),
                                   children: <TextSpan>[
                                     TextSpan(
-                                      text: "62%",
+                                      text: state.companyData['Completed'].toString(),
                                       style: TextStyle(
                                         color: AppColors.secondaryText,
                                         fontFamily: "Helvetica",
@@ -611,7 +621,7 @@ class _HomeState extends State<Home> {
                                     ),
                                     TextSpan(
                                       text:
-                                          " Of Projects Have Been Fully Completed",
+                                          "% Of Projects Have Been Fully Completed",
                                       style: TextStyle(
                                         color: AppColors.primaryText,
                                         fontFamily: "Helvetica",

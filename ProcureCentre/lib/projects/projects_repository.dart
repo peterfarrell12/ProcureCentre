@@ -11,8 +11,6 @@ abstract class ProjectRepository {
 
   Stream<List<Project>> projects(String company);
 
-  // Stream<List<Project>> userProjectList(String company, String user);
-  // Stream<List<Project>> companyProjectList(String company);
 
   Future<void> updateProject(Project project, String company);
 

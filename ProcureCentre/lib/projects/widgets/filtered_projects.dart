@@ -17,9 +17,16 @@ class FilteredProject extends StatefulWidget {
 
   @override
   _FilteredProjectState createState() => _FilteredProjectState();
+
 }
 
 class _FilteredProjectState extends State<FilteredProject> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
   //User get _user => widget.user;
 
   @override
@@ -63,6 +70,7 @@ class _FilteredProjectState extends State<FilteredProject> {
                 popUp:
                    PopupMenuButton<Status>(
       tooltip: 'Change Status',
+    
       onSelected:(Status result) {
         String r;
         if (result == Status.initial) {
@@ -100,7 +108,7 @@ class _FilteredProjectState extends State<FilteredProject> {
         ),
         
       ],
-      icon: Icon(Icons.filter_list),
+      icon:  Icon(project.status=='Completed' ? Icons.check_box : Icons.check_box_outline_blank, color: (project.status=='Initial')?Colors.redAccent:(project.status=='In Progress')? Colors.amber:(project.status=='Completed')? Theme.of(context).primaryColor: Colors.grey),
     ),
                 
 

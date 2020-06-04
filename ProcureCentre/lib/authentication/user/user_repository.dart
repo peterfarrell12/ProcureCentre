@@ -19,17 +19,6 @@ class UserRepository {
        // _googleSignIn = googleSignin ?? GoogleSignIn()
         ;
 
-  // Future<FirebaseUser> signInWithGoogle() async {
-  //   //final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  //   final GoogleSignInAuthentication googleAuth =
-  //       await googleUser.authentication;
-  //   final AuthCredential credential = GoogleAuthProvider.getCredential(
-  //     accessToken: googleAuth.accessToken,
-  //     idToken: googleAuth.idToken,
-  //   );
-  //   await _firebaseAuth.signInWithCredential(credential);
-  //   return _firebaseAuth.currentUser();
-  // }
 
   Future<void> signInWithCredentials(String email, String password) {
     return _firebaseAuth.signInWithEmailAndPassword(
@@ -87,21 +76,6 @@ class UserRepository {
 }
 
 
-
-//  Future<fs.DocumentReference> getUserRef(String userEmail) async {
-//    String id;
-//    String company;
-//    List<String> companies = await companyList();
-
-//   for (var i = 0; i < companies.length; i++) {
-//           print(companies[i]);
-//           fs.CollectionReference users = store.collection('companies').doc(companies[i]).collection('users');
-//           fs.QuerySnapshot user = await users.limit(1).where("Email", '==', userEmail).get();
-          
-//           }
-//             fs.DocumentReference ref = store.collection('companies').doc(company.toString()).collection('users').doc(id.toString());
-//   return ref;
-//         }
 
     Future<fs.DocumentReference> getUserRef (String userEmail) async {
     String comp;

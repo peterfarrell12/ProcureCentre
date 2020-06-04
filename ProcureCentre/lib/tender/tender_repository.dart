@@ -8,9 +8,6 @@ import 'package:ProcureCentre/tender/models/tender.dart';
 
 abstract class TenderRepository {
 
-  //Future<void> isTenderComplete(Project project, String company);
-
-  //Future<void> getTenderData(Project project, String company);
 
 
 

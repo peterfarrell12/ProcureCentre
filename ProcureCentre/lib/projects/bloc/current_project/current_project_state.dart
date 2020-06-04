@@ -36,27 +36,3 @@ class CurrentProjectError extends CurrentProjectState {
   List<Object> get props => [message];
 }
 
-// class ShowDataExtraction extends CurrentProjectState {
-//   final Project currentProject;
-//   const ShowDataExtraction(this.currentProject);
-//   @override
-//   List<Object> get props => [currentProject];
-// }
-// class ShowClassification extends CurrentProjectState {
-//   final Project currentProject;
-//   const ShowClassification(this.currentProject);
-//   @override
-//   List<Object> get props => [currentProject];
-// }
-// class ShowDashboard extends CurrentProjectState {
-//   final Project currentProject;
-//   const ShowDashboard(this.currentProject);
-//   @override
-//   List<Object> get props => [currentProject];
-// }
-// class ShowTenderCreation extends CurrentProjectState {
-//   final Project currentProject;
-//   const ShowTenderCreation(this.currentProject);
-//   @override
-//   List<Object> get props => [currentProject];
-// }

@@ -73,6 +73,7 @@ class ClassificationBloc
   Stream<ClassificationState> _mapUploadFilePressedToState(
       UploadFilePressed event) async* {
     yield CheckingStatusState(event.project, event.company);
+    print('hello');
     List<String> models = List.from(event.project.classification['Models']);
 
     // print(models);

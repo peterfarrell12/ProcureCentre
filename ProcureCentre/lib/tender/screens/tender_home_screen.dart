@@ -31,9 +31,6 @@ class _TenderHomeScreenState extends State<TenderHomeScreen> {
         ),
         content: Padding(
           padding: const EdgeInsets.all(8.0),
-          // child: Container(
-          //   height: MediaQuery.of(context).size.height * .6,
-          //   width: MediaQuery.of(context).size.width * .3,
             child: Container(
               child: SingleChildScrollView(
                   child: Padding(
@@ -48,7 +45,6 @@ class _TenderHomeScreenState extends State<TenderHomeScreen> {
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
-                                // width: 3.0 --> you can set a custom width too!
                               ),
                             ),
                           ),
@@ -70,7 +66,6 @@ class _TenderHomeScreenState extends State<TenderHomeScreen> {
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
-                                // width: 3.0 --> you can set a custom width too!
                               ),
                             ),
                           ),
@@ -99,7 +94,6 @@ class _TenderHomeScreenState extends State<TenderHomeScreen> {
                                     border: Border(
                                       bottom: BorderSide(
                                         color: Colors.grey,
-                                        // width: 3.0 --> you can set a custom width too!
                                       ),
                                     ),
                                   ),
@@ -125,7 +119,6 @@ class _TenderHomeScreenState extends State<TenderHomeScreen> {
                             border: Border(
                               bottom: BorderSide(
                                 color: Colors.grey,
-                                // width: 3.0 --> you can set a custom width too!
                               ),
                             ),
                           ),

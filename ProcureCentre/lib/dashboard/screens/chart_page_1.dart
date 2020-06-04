@@ -20,49 +20,11 @@ class _ChartPageOneState extends State<ChartPageOne> {
   var suppliers;
   var categories;
 
- void _getAnalysisData(data){
-
-   try {
-     setState(() {
-       spend = totalSpend(_data);
-     });
-   } catch (e) {
-     setState(() {
-       spend = "Error Getting Data :/";
-     });
-   }
-      try {
-     setState(() {
-       suppliers = totalSuppliers(_data);
-     });
-   } catch (e) {
-     setState(() {
-       suppliers = "Error Getting Data :/";
-     });
-   }
-      try {
-     setState(() {
-       categories = totalCategories(_data);
-     });
-   } catch (e) {
-     setState(() {
-       categories = "Error Getting Data :/";
-     });
-   }
- } 
-
- @override
-  void initState() {
-    // TODO: implement initState
-    _getAnalysisData(_data);
-    super.initState();
-  }
-
  
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Row(
+        child: _data.isEmpty ? Center(child: Container(child: Text('There is no data to analyze yet!'),)):Row(
       children: <Widget>[
         
         Container(
@@ -76,9 +38,9 @@ class _ChartPageOneState extends State<ChartPageOne> {
               children: <Widget>[
 
            
-                Container(child: _infoCard("Spend","€$spend", "The Total Spend of All Invoices")),
-                Container(child: _infoCard("Suppliers",  "$suppliers", 'The Total Number of Supplier')),
-                Container(child: _infoCard("Categories", categories , 'The Total Number of Categories')),
+                Container(child: _infoCard("Spend","€${totalSpend(_data).toString()}", "The Total Spend of All Invoices")),
+                Container(child: _infoCard("Suppliers",  "${totalSuppliers(_data).toString()}", 'The Total Number of Supplier')),
+                Container(child: _infoCard("Categories", totalCategories(_data).toString(), 'The Total Number of Categories')),
               ],
             ),
             Row(

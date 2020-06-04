@@ -11,8 +11,9 @@ abstract class HomeState extends Equatable {
 
 class ProjectState extends HomeState {
 final User user;
+final String selected;
 
-  const ProjectState(this.user);
+  const ProjectState(this.user, this.selected);
 
   @override
   List<Object> get props => [user];
@@ -24,8 +25,10 @@ final User user;
 
 class HomeScreen1State extends HomeState {
  final User user;
+ final String selected;
 
-  const HomeScreen1State(this.user);
+
+  const HomeScreen1State(this.user, this.selected);
 
   @override
   List<Object> get props => [user];
@@ -37,8 +40,10 @@ class HomeScreen1State extends HomeState {
 
 class SettingsState extends HomeState {
   final User user;
+  final String selected;
 
-  const SettingsState(this.user);
+
+  const SettingsState(this.user, this.selected);
 
   @override
   List<Object> get props => [user];

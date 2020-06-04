@@ -1,6 +1,7 @@
 import 'package:ProcureCentre/dashboard/helper/data_transformer.dart';
 import 'package:ProcureCentre/extraction/models/extracted_data.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:intl/intl.dart';
 
 List<charts.Series<TopSuppliers, String>> createSupplierData(List<DataPoint> initalData) {
   List<TopSuppliers> data = topSupplierData(initalData);
@@ -70,8 +71,9 @@ List<charts.Series<TopSuppliers, String>> createSupplierData(List<DataPoint> ini
 
     return [
       new charts.Series<MonthSpend, DateTime>(
+
         id: 'Months',
-        domainFn: (MonthSpend sales, _) => sales.month,
+        domainFn: (MonthSpend sales, _) => DateFormat.MMM().parse(sales.month),
         measureFn: (MonthSpend sales, _) => sales.spend,
         data: data,
         // Set a label accessor to control the text of the arc label.

@@ -15,7 +15,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _user = user;
 
   @override
-  HomeState get initialState => HomeScreen1State(_user);
+  HomeState get initialState => HomeScreen1State(_user, "Home");
 
 
   @override
@@ -32,16 +32,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   Stream<HomeState> _mapProjectButtonPressedToState(User user) async* {
-    yield  ProjectState(user);
+    yield  ProjectState(user, "Project");
     
   }
 
   Stream<HomeState> _mapDashboardButtonPressedToState(User user) async* {
-   yield  HomeScreen1State(user);
+   yield  HomeScreen1State(user, "Home");
   }
 
     Stream<HomeState> _mapSettingButtonPressedToState(User user) async* {
-    yield  SettingsState(user);
+    yield  SettingsState(user, "Settings");
   }
 
 }

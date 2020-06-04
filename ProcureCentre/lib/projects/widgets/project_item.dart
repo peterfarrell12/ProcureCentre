@@ -20,6 +20,8 @@ class ProjectItem extends StatelessWidget {
     @required this.popUp
   }) : super(key: key);
 
+
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -28,28 +30,16 @@ class ProjectItem extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           border: Border(
-            left: BorderSide(
-              width: MediaQuery.of(context).size.width * .01,
-              color:                                (project.status=='Initial')?Colors.redAccent:(project.status=='In Progress')? Colors.amber:(project.status=='Completed')? Colors.greenAccent: Colors.grey),
+            bottom: BorderSide(
+              width: 1,
+              color:    Colors.grey[200],)                           
+              
+              //  (project.status=='Initial')?Colors.redAccent:(project.status=='In Progress')? Colors.amber:(project.status=='Completed')? Colors.greenAccent: Colors.grey),
           ),
         ),
         child: ListTile(
           onTap: onTap,
-          leading: popUp,
-          //leading: 
-          // IconButton(
-          //   icon: Icon(Icons.more_vert),
-          //   iconSize: 20,
-          //   color: Colors.blue,
-          //   onPressed: moreTapped,
-          // ),
-          
-          
-          
-          // Checkbox(
-          //   value: project.complete,
-          //   onChanged: onCheckboxChanged,
-          // ),
+
           title:
               // Hero(
               // tag: '${project.name}__heroTag',
@@ -71,14 +61,21 @@ class ProjectItem extends StatelessWidget {
                 )
               : null,
 
-          trailing: IconButton(
-            icon: Icon(Icons.delete),
-            iconSize: 20,
-            onPressed: deleteTapped,
-            color: Colors.blue,
+          trailing: Wrap(
+    spacing: 12,
+            children: [
+     popUp,
+              IconButton(
+                icon: Icon(Icons.delete),
+                iconSize: 20,
+                onPressed: deleteTapped,
+                color: Colors.grey,
+              ),
+            ],
           ),
         ),
       ),
     );
   }
+
 }

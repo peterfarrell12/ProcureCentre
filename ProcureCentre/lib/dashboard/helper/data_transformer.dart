@@ -49,6 +49,8 @@ int totalCategories(List<DataPoint> data) {
 
 String topSupplierspend(List<DataPoint> data) {
       print("Getting Top Supplier Spend....");
+try {
+  
 
   List<String> suppliers = [];
   Map<String, double> supplierSpend = {};
@@ -92,11 +94,14 @@ String topSupplierspend(List<DataPoint> data) {
   });
 
   return topSupplier;
+  } catch (e) {
+    return "Error";
+}
 }
 
 String topItemSpend(List<DataPoint> data) {
       print("Getting Top Item Spend....");
-
+try {
   List<String> items = [];
   Map<String, double> itemSpend = {};
   for (int i = 0; i < data.length; i++) {
@@ -138,10 +143,15 @@ String topItemSpend(List<DataPoint> data) {
   });
 
   return topItem;
+  } catch (e) {
+    return "Error";
+}
 }
 
 int avgPerInvoice(List<DataPoint> data) {
       print("Getting Average Spend Per Invoice....");
+
+      try {
 
   List<String> invoices = [];
 
@@ -155,10 +165,14 @@ int avgPerInvoice(List<DataPoint> data) {
   double avgSpend = spend / uniqueInvoices.length;
 
   return avgSpend.round();
+
+  } catch (e) {
+    return 0;
+}
 }
 List<String> suppliers(List<DataPoint> data){
       print("Getting Supplier....");
-
+try {
   List<String> suppliers = [];
 
   for (int x = 0; x < data.length; x++) {
@@ -168,10 +182,13 @@ List<String> suppliers(List<DataPoint> data){
   var categories = suppliers.toSet().toList();
 
   return categories;
+  } catch (e) {
+    return [];
+}
 }
 List<String> categories(List<DataPoint> data){
       print("Getting Categories....");
-
+try{
   List<String> categories = [];
 
   for (int x = 0; x < data.length; x++) {
@@ -181,11 +198,14 @@ List<String> categories(List<DataPoint> data){
   var cats = categories.toSet().toList();
 
   return cats;
+  } catch (e) {
+    return [];
+}
 }
 
 List<String> location(List<DataPoint> data){
       print("Getting Total Locations....");
-
+try {
   List<String> location = [];
 
   for (int x = 0; x < data.length; x++) {
@@ -195,6 +215,9 @@ List<String> location(List<DataPoint> data){
   var locations = location.toSet().toList();
 
   return locations;
+  } catch (e) {
+    return [];
+}
 }
 
 class TopSuppliers {
@@ -206,7 +229,7 @@ class TopSuppliers {
 
 List<TopSuppliers> topSupplierData(List<DataPoint> data) {
       print("Getting Top Supplier Data....");
-
+try {
   List<TopSuppliers> temp = [];
   List<String> suppliers = [];
   Map<String, double> supplierSpend = {};
@@ -257,6 +280,9 @@ List<TopSuppliers> topSupplierData(List<DataPoint> data) {
   }
 
   return top3;
+  } catch (e) {
+    return [];
+}
 }
 
 class CategorySpend {
@@ -268,7 +294,7 @@ class CategorySpend {
 
 List<CategorySpend> spendByCategory(List<DataPoint> data) {
       print("Getting Total Category Data....");
-
+try{
   List<String> totalCategories = [];
   List<CategorySpend> temp = [];
   Map<String, double> categorySpend = {};
@@ -298,6 +324,9 @@ List<CategorySpend> spendByCategory(List<DataPoint> data) {
     temp.add(holder);
   });
   return temp;
+  } catch (e) {
+    return [];
+}
 }
 
 class LocationSpend {
@@ -309,7 +338,7 @@ class LocationSpend {
 
 List<LocationSpend> spendByLocation(List<DataPoint> data) {
       print("Getting Spend By Location....");
-
+try{
   List<String> totalLocations = [];
   List<LocationSpend> temp = [];
   Map<String, double> locationSpend = {};
@@ -339,6 +368,9 @@ List<LocationSpend> spendByLocation(List<DataPoint> data) {
     temp.add(holder);
   });
   return temp;
+  } catch (e) {
+    return [];
+}
 }
 
 class TopItems {
@@ -350,7 +382,7 @@ class TopItems {
 
 List<TopItems> topItemsData(List<DataPoint> data) {
       print("Getting Top Items Data....");
-
+try{
   List<TopItems> temp = [];
   List<String> items = [];
   Map<String, double> itemSpend = {};
@@ -401,42 +433,51 @@ List<TopItems> topItemsData(List<DataPoint> data) {
   }
 
   return top2;
+  } catch (e) {
+    return [];
+}
 }
 
 class MonthSpend {
-  final DateTime month;
+  final String month;
   final int spend;
 
-  MonthSpend(this.month, this.spend);
+  MonthSpend(this.month, this.spend,);
 }
 
 List<MonthSpend> monthlySpendData(List<DataPoint> data) {
       print("Getting Monthly Spend....");
-
+try{
   List<MonthSpend> result = [];
-  Map<DateTime, int> months = {
-    DateFormat('MMM').parse('Jan'): 0,
-    DateFormat('MMM').parse('Feb'): 0,
-    DateFormat('MMM').parse('Mar'): 0,
-    DateFormat('MMM').parse('Apr'): 0,
-    DateFormat('MMM').parse('May'): 0,
-    DateFormat('MMM').parse('Jun'): 0,
-    DateFormat('MMM').parse('Jul'): 0,
-    DateFormat('MMM').parse('Aug'): 0,
-    DateFormat('MMM').parse('Sep'): 0,
-    DateFormat('MMM').parse('Oct'): 0,
-    DateFormat('MMM').parse('Nov'): 0,
-    DateFormat('MMM').parse('Dec'): 0
+  Map<String, int> months = {
+    'Jan': 0,
+    'Feb': 0,
+    'Mar': 0,
+    'Apr': 0,
+    'May': 0,
+    'Jun': 0,
+    'Jul': 0,
+    'Aug': 0,
+    'Sep': 0,
+    'Oct': 0,
+    'Nov': 0,
+    'Dec': 0
   };
 
   for (int i = 0; i < data.length; i++) {
+    // print(data[i].date);
     var date = new DateFormat("yyyy-MM-dd").parse(data[i].date);
+    // print(date);
     var formatter = new DateFormat('MMM');
     var formatted = formatter.format(date);
+    // print(formatted);
+
     
     try {
       double spend = double.parse(data[i].total);
-          months[DateFormat('MMM').parse(formatted)] = months[DateFormat('MMM').parse(formatted)] + spend.round();
+     
+
+          months[formatted] = months[formatted] + spend.round();
 
 
         } catch (e) {
@@ -446,8 +487,14 @@ List<MonthSpend> monthlySpendData(List<DataPoint> data) {
   }
 
   months.forEach((key, value) {
+    print("$key: , $value:");
     MonthSpend temp = MonthSpend(key, value);
     result.add(temp);
   });
+  // result.forEach((element) {print(element.month);});
   return result;
+  } catch (e) {
+    print(e);
+    return [];
+}
 }

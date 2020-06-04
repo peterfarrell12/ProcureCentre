@@ -114,12 +114,7 @@ class FirebaseHomeRepository implements HomeRepository {
     }
     for (int i = 0; i < table1Data.length; i++) {
     }
-    // List<Map> projectDetails = [
-    //   {"Feature": "Extraction"},
-    //   {"Feature": "Classification"},
-    //   {"Feature": "Dashboard"},
-    //   {"Feature": "Tender"}
-    // ];
+
 
     List<Table2> table2Data = [];
     await store
@@ -164,8 +159,7 @@ class FirebaseHomeRepository implements HomeRepository {
           feature: feature4, projects: project4, percentage: percentage4));
     });
 
-    // print(projectDetails);
-    // print(completedProjectsPercentage);
+
 
     return {
       "Users": companyUsers,
@@ -179,41 +173,6 @@ class FirebaseHomeRepository implements HomeRepository {
        "Table 2" : table2Data,
     };
   }
-
-  // @override
-  // Future<void> addNewProjectFile(
-  //     Project project, String company, File uploadFile) async {
-  //   store
-  //       .collection('companies')
-  //       .doc(company)
-  //       .collection('projects')
-  //       .doc(project.id)
-  //       .update(data: {
-  //     'test': 'downloadUrlTest',
-  //   }, fieldsAndValues: [
-  //     'Files'
-  //   ]);
-
-  //   return fb
-  //       .storage()
-  //       .ref('/Files/procurecentre.appspot.com/PDFs')
-  //       .child("filePath")
-  //       .put(uploadFile);
-  // }
-
-  // @override
-//   Future<void> deleteProjectFile(
-//       Project project, String company, File uploadFile) {}
-//   @override
-//   Stream<List<Project>> projectFiles(String company, Project project) {}
-//   @override
-//   Future<void> updateProjectFiles(Project project, String company, File file) {}
-//   @override
-//   Stream listenToProjectFilesRealTime(String company, Project project) {}
-// }
-
-//   final output = await getTemporaryDirectory();
-//   final file = File("${output.path}/example.pdf");
 
 }
 

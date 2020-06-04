@@ -8,7 +8,7 @@ class SplashScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
               child: Container(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                   child: Center(child: RichText(
             text: TextSpan(
               style: TextStyle(fontSize: 50, color: Colors.white),

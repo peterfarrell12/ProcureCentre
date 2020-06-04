@@ -8,8 +8,7 @@ import 'package:csv/csv.dart';
 
 getCsv(Tender tender, List<DataPoint> data) async {
 
- //create an element rows of type list of list. All the above data set are stored in associate list
-//Let associate be a model class with attributes name,gender and age and associateList be a list of associate model class.
+
 
 
  List<List<dynamic>> rows = List<List<dynamic>>();
@@ -42,17 +41,8 @@ rows.add([]);
 
 
 
-//store file in documents folder
-
-    // String dir = (await getExternalStorageDirectory()).absolute.path + "/documents";
-    //  var file = "$dir";
-    // print(LOGTAG+" FILE " + file);
-
-// convert rows to String and write as csv file
-
     String csv = const ListToCsvConverter().convert(rows);
 
-   // f.writeAsString(csv);
 
 final text = '${tender.title}';
 

@@ -69,12 +69,12 @@ class _AddEditScreenState extends State<AddEditScreen> {
           children: <Widget>[
             Text(
               isEditing ? 'Edit Project' : 'Add Project',
-              style: TextStyle(color: Colors.blue),
+              style: TextStyle(color: Theme.of(context).primaryColor)
             ),
             IconButton(
               icon: Icon(
                 Icons.close,
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -94,31 +94,38 @@ class _AddEditScreenState extends State<AddEditScreen> {
                   children: <Widget>[
         Column(
           children: <Widget>[
-            TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Project Name',
-                ),
-                autofocus: true,
-                validator: (val) {
-                  return val.trim().isEmpty
-                      ? 'Please enter some text'
-                      : null;
-                },
-                onSaved: (value) => _name = value,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                
+                  decoration: InputDecoration(
+                    labelText: 'Project Name',
+                  ),
+                  autofocus: true,
+                  validator: (val) {
+                    return val.trim().isEmpty
+                        ? 'Please enter some text'
+                        : null;
+                  },
+                  onSaved: (value) => _name = value,
+              ),
             ),
-            TextFormField(
-                minLines: 2,
-                maxLines: 4,
-                decoration: InputDecoration(
-                  labelText: 'Project Description',
-                ),
-                autofocus: true,
-                validator: (val) {
-                  return val.trim().isEmpty
-                      ? 'Please enter some text'
-                      : null;
-                },
-                onSaved: (value) => _description = value,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextFormField(
+                minLines: 1,
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                    labelText: 'Project Description',
+                  ),
+                  autofocus: true,
+                  validator: (val) {
+                    return val.trim().isEmpty
+                        ? 'Please enter some text'
+                        : null;
+                  },
+                  onSaved: (value) => _description = value,
+              ),
             ),
             Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -172,13 +179,16 @@ class _AddEditScreenState extends State<AddEditScreen> {
             
              
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: FloatingActionButton(
-            tooltip: isEditing ? 'Save changes' : 'Add Project',
-            child: Icon(isEditing ? Icons.check : Icons.check),
-            onPressed: () {
-                if (_formKey.currentState.validate()) {
+
+                  ],
+                ),
+              ),
+            ),
+          ),
+       actions: [
+         FlatButton(onPressed: () => Navigator.pop(context), child: Text('Discard', style: TextStyle(color: Theme.of(context).primaryColor),)),
+         FlatButton(onPressed: () {
+                   if (_formKey.currentState.validate()) {
                   _formKey.currentState.save();
                   //widget.onSave(_name, _user, false);
                   //BlocProvider.of<ProjectsBloc>(context).
@@ -187,15 +197,9 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
                   Navigator.of(context).pop();
                 }
-            },
-          ),
-        ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-       
+         }, child: Text('Add',style: TextStyle(color: Theme.of(context).primaryColor)))
+
+       ],
       );
     });
   }

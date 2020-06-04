@@ -108,5 +108,4 @@ class FirebaseProjectRepository implements ProjectRepository {
   Stream listenToProjectFilesRealTime(String company, Project project) {}
 }
 
-//   final output = await getTemporaryDirectory();
-//   final file = File("${output.path}/example.pdf");
+
